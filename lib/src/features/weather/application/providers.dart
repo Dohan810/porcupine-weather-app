@@ -14,7 +14,10 @@ class WeatherProvider extends ChangeNotifier {
     client: http.Client(),
   );
 
-  String city = 'London';
+  ValueNotifier<String> locationBackgroundNotifier =
+      ValueNotifier<String>("assets/default.png");
+
+  String city = 'Cape Town';
   WeatherData? currentWeatherProvider;
   ForecastData? hourlyWeatherProvider;
 
@@ -32,6 +35,11 @@ class WeatherProvider extends ChangeNotifier {
       final weather = await repository.getWeather(city: city);
       currentWeatherProvider = weather;
 
+      if (weather == null) {
+        throw "Unable to find location";
+      }
+
+      _updateBackgroundImage(weather.weather.first.main);
       await getForecastData();
 
       currentWeatherState = WeatherState.loaded;
@@ -52,6 +60,26 @@ class WeatherProvider extends ChangeNotifier {
     } catch (e) {
       forecastWeatherState = WeatherState.error;
       errorMessage = "Unable to find location";
+    }
+  }
+
+  void _updateBackgroundImage(String weatherCondition) {
+    switch (weatherCondition.toLowerCase()) {
+      case 'clear':
+        locationBackgroundNotifier.value = "assets/sunny1.png";
+        break;
+      case 'clouds':
+        locationBackgroundNotifier.value = "assets/cloudy1.png";
+        break;
+      case 'rain':
+        locationBackgroundNotifier.value = "assets/raining1.png";
+        break;
+      case 'thunderstorm':
+        locationBackgroundNotifier.value = "assets/thunder1.png";
+        break;
+      default:
+        locationBackgroundNotifier.value = "assets/default.png";
+        break;
     }
   }
 }

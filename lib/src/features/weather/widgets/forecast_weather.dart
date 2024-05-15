@@ -11,37 +11,38 @@ class ForecastWeather extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          "Forecast",
-          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
-        ),
-        addSpace(2),
-        BlurWrapper(
-          child: Consumer<WeatherProvider>(
-            builder: (context, provider, _) {
-              final state = provider.forecastWeatherState;
-              final forecastData = provider.hourlyWeatherProvider;
-              final errorMessage = provider.errorMessage;
+    return Consumer<WeatherProvider>(
+      builder: (context, provider, _) {
+        final state = provider.forecastWeatherState;
+        final forecastData = provider.hourlyWeatherProvider;
+        final errorMessage = provider.errorMessage;
 
-              switch (state) {
-                case WeatherState.loading:
-                  return const Center(child: CircularProgressIndicator());
-                case WeatherState.error:
-                  return Center(child: Text(errorMessage ?? "Error occurred"));
-                case WeatherState.loaded:
-                  if (forecastData == null) {
-                    return const Center(
-                        child: Text("No forecast data available"));
-                  }
-                  final List<WeatherList> forecastList = forecastData.list;
+        switch (state) {
+          case WeatherState.loading:
+            return const Center(child: CircularProgressIndicator());
+          case WeatherState.error:
+            return Center(child: Text(errorMessage ?? "Error occurred"));
+          case WeatherState.loaded:
+            if (forecastData == null) {
+              return const Center(child: Text("No forecast data available"));
+            }
+            final List<WeatherList> forecastList = forecastData.list;
 
-                  return SingleChildScrollView(
+            if (forecastList.isEmpty) return const SizedBox.shrink();
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Forecast",
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                ),
+                addSpace(2),
+                BlurWrapper(
+                  child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -52,15 +53,15 @@ class ForecastWeather extends StatelessWidget {
                         );
                       }).toList(),
                     ),
-                  );
-                case WeatherState.initial:
-                default:
-                  return Container();
-              }
-            },
-          ),
-        ),
-      ],
+                  ),
+                ),
+              ],
+            );
+          case WeatherState.initial:
+          default:
+            return Container();
+        }
+      },
     );
   }
 }

@@ -4,12 +4,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:open_weather_example_flutter/shared/widgets/wrappers/responsive_wrapper.dart';
 import 'package:open_weather_example_flutter/src/constants/app_colors.dart';
+import 'package:open_weather_example_flutter/src/features/weather/application/providers.dart';
 import 'package:open_weather_example_flutter/src/features/weather/presentation/views/weather_desktop.dart';
 import 'package:open_weather_example_flutter/src/features/weather/presentation/views/weather_mobile.dart';
 import 'package:open_weather_example_flutter/src/features/weather/presentation/views/weather_tablet.dart';
 import 'package:open_weather_example_flutter/src/features/weather/widgets/city_search_box.dart';
 import 'package:open_weather_example_flutter/src/features/weather/widgets/current_weather.dart';
 import 'package:open_weather_example_flutter/src/features/weather/widgets/forecast_weather.dart';
+import 'package:provider/provider.dart';
 
 class WeatherPage extends StatelessWidget {
   const WeatherPage({super.key, required this.city});
@@ -17,19 +19,24 @@ class WeatherPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: BackgroundImageWrapper(
-        backgroundImagePath: "assets/cloudy1.png",
-        child: SafeArea(
-          child: Expanded(
-            child: SharedResponsiveWrapper(
-              mobileView: FeatureWeatherMobile(),
-              tabletView: FeatureWeatherTablet(),
-              desktopView: FeatureWeatherDesktop(),
-            ),
-          ),
-        ),
-      ),
+    return Scaffold(
+      body: ValueListenableBuilder<String>(
+          valueListenable:
+              context.read<WeatherProvider>().locationBackgroundNotifier,
+          builder: (context, backgroundImagePath, _) {
+            return BackgroundImageWrapper(
+              backgroundImagePath: backgroundImagePath,
+              child: const SafeArea(
+                child: Expanded(
+                  child: SharedResponsiveWrapper(
+                    mobileView: FeatureWeatherMobile(),
+                    tabletView: FeatureWeatherTablet(),
+                    desktopView: FeatureWeatherDesktop(),
+                  ),
+                ),
+              ),
+            );
+          }),
     );
   }
 }

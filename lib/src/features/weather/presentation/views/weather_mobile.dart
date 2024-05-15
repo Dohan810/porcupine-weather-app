@@ -23,10 +23,11 @@ class _WeatherPageMobileState extends State<FeatureWeatherMobile> {
           addSpace(8),
           const ForecastWeather(),
           addSpace(8),
-          SunPathWidget(
-            sunrise: DateTime.now().subtract(const Duration(hours: 2)),
-            sunset: DateTime.now().add(const Duration(hours: 3)),
-          ),
+          const CurrentSunRiseWeather(),
+          // SunPathWidget(
+          //   sunrise: DateTime.now().subtract(const Duration(hours: 2)),
+          //   sunset: DateTime.now().add(const Duration(hours: 3)),
+          // ),
         ],
       ),
     );
