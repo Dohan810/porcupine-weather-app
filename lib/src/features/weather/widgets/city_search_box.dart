@@ -1,7 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:open_weather_example_flutter/shared/widgets/wrappers/animation_wrapper.dart';
 import 'package:open_weather_example_flutter/src/constants/app_colors.dart';
 import 'package:open_weather_example_flutter/src/features/weather/application/providers.dart';
+import 'package:open_weather_example_flutter/src/features/weather/presentation/weather_page.dart';
 import 'package:open_weather_example_flutter/utils/date_utils.dart';
 import 'package:open_weather_example_flutter/utils/formatting_utils.dart';
 import 'package:provider/provider.dart';
@@ -149,12 +152,25 @@ class _CitySearchRowState extends State<CitySearchBox> {
               addSpace(2),
             ],
           ),
-          IconButton(
-            icon: const Icon(
-              Icons.search,
-              color: Colors.white,
-            ),
-            onPressed: _toggleSearch,
+          Row(
+            children: [
+              IconButton(
+                icon: const Icon(
+                  Icons.search,
+                  color: Colors.white,
+                ),
+                onPressed: _toggleSearch,
+              ),
+              GestureDetector(
+                child: Image.asset(
+                  "assets/menu.png",
+                  height: 24,
+                ),
+                onTap: () {
+                  scaffoldKey.currentState?.openDrawer();
+                },
+              ),
+            ],
           ),
         ]
       ],

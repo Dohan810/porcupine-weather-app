@@ -8,7 +8,16 @@ import 'package:http/http.dart' as http;
 
 enum WeatherState { initial, loading, loaded, error }
 
+enum Unit { metric, imperial }
+
+enum ForecastRange { daily, threeHourly }
+
 class WeatherProvider extends ChangeNotifier {
+  // Call getWeatherData on initialization
+  WeatherProvider() {
+    getWeatherData();
+  }
+
   HttpWeatherRepository repository = HttpWeatherRepository(
     api: OpenWeatherMapAPI(sl<String>(instanceName: 'api_key')),
     client: http.Client(),
@@ -25,6 +34,19 @@ class WeatherProvider extends ChangeNotifier {
   WeatherState forecastWeatherState = WeatherState.initial;
 
   String? errorMessage;
+
+  Unit selectedUnit = Unit.metric;
+  ForecastRange selectedForecastRange = ForecastRange.daily;
+
+  void updateUnit(Unit unit) {
+    selectedUnit = unit;
+    notifyListeners();
+  }
+
+  void updateForecastRange(ForecastRange range) {
+    selectedForecastRange = range;
+    notifyListeners();
+  }
 
   Future<void> getWeatherData() async {
     try {
