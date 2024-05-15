@@ -17,8 +17,10 @@ class WeatherProvider extends ChangeNotifier {
   String city = 'London';
   WeatherData? currentWeatherProvider;
   ForecastData? hourlyWeatherProvider;
+
   WeatherState currentWeatherState = WeatherState.initial;
   WeatherState forecastWeatherState = WeatherState.initial;
+
   String? errorMessage;
 
   Future<void> getWeatherData() async {
