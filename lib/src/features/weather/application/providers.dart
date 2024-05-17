@@ -46,7 +46,6 @@ String getForecastRangeName(ForecastRange range) {
 }
 
 class WeatherProvider extends ChangeNotifier {
-  // Call getWeatherData on initialization
   WeatherProvider() {
     getWeatherData();
   }
@@ -70,6 +69,8 @@ class WeatherProvider extends ChangeNotifier {
 
   Unit selectedUnit = Unit.metric;
   ForecastRange selectedForecastRange = ForecastRange.daily;
+
+  List<String> previousSearches = [];
 
   void updateUnit(Unit unit) {
     selectedUnit = unit;
@@ -96,6 +97,11 @@ class WeatherProvider extends ChangeNotifier {
       }
 
       _updateBackgroundImage(weather.weather.first.main);
+
+      if (!previousSearches.contains(city)) {
+        previousSearches.add(city);
+      }
+
       await getForecastData();
 
       currentWeatherState = WeatherState.loaded;
