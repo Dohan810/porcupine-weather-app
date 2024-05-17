@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class SharedDropdownWidget<T> extends StatelessWidget {
+class SharedDropdownWidget<T> extends StatefulWidget {
   final String? label;
   final List<T> items;
   final T? value;
@@ -13,6 +13,7 @@ class SharedDropdownWidget<T> extends StatelessWidget {
   final bool showRightIcon;
   final bool isSuccess;
   final bool isError;
+  final String Function(T)? displayValue;
 
   const SharedDropdownWidget({
     super.key,
@@ -28,22 +29,47 @@ class SharedDropdownWidget<T> extends StatelessWidget {
     this.showRightIcon = false,
     this.isSuccess = false,
     this.isError = false,
+    this.displayValue,
   });
+
+  @override
+  _SharedDropdownWidgetState<T> createState() =>
+      _SharedDropdownWidgetState<T>();
+}
+
+class _SharedDropdownWidgetState<T> extends State<SharedDropdownWidget<T>> {
+  bool _showSuccessMessage = false;
+
+  void _handleChange(T? newValue) {
+    if (newValue != widget.value) {
+      widget.onChanged(newValue);
+      setState(() {
+        _showSuccessMessage = true;
+      });
+      Future.delayed(const Duration(seconds: 2), () {
+        if (mounted) {
+          setState(() {
+            _showSuccessMessage = false;
+          });
+        }
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (label != null)
+        if (widget.label != null)
           Padding(
             padding: const EdgeInsets.only(bottom: 8.0),
             child: Text(
-              label!,
+              widget.label!,
               style: TextStyle(
-                color: isSuccess
+                color: widget.isSuccess
                     ? Colors.green
-                    : isError
+                    : widget.isError
                         ? Colors.red
                         : Colors.black,
               ),
@@ -51,12 +77,12 @@ class SharedDropdownWidget<T> extends StatelessWidget {
           ),
         Row(
           children: [
-            if (showLeftIcon && leftIcon != null)
+            if (widget.showLeftIcon && widget.leftIcon != null)
               Icon(
-                leftIcon,
-                color: isSuccess
+                widget.leftIcon,
+                color: widget.isSuccess
                     ? Colors.green
-                    : isError
+                    : widget.isError
                         ? Colors.red
                         : Colors.black,
               ),
@@ -69,40 +95,42 @@ class SharedDropdownWidget<T> extends StatelessWidget {
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(
-                    color: isSuccess
+                    color: widget.isSuccess
                         ? Colors.green
-                        : isError
+                        : widget.isError
                             ? Colors.red
                             : Colors.black,
                   ),
                 ),
                 child: DropdownButtonHideUnderline(
                   child: DropdownButtonFormField<T>(
-                    value: value,
+                    value: widget.value,
                     isExpanded: true,
-                    icon: showRightIcon && rightIcon != null
+                    icon: widget.showRightIcon && widget.rightIcon != null
                         ? Icon(
-                            rightIcon,
-                            color: isSuccess
+                            widget.rightIcon,
+                            color: widget.isSuccess
                                 ? Colors.green
-                                : isError
+                                : widget.isError
                                     ? Colors.red
                                     : Colors.black,
                           )
                         : null,
-                    items: items.map<DropdownMenuItem<T>>((T item) {
+                    items: widget.items.map<DropdownMenuItem<T>>((T item) {
                       return DropdownMenuItem<T>(
                         value: item,
                         child: Text(
-                          item.toString().split('.').last,
+                          widget.displayValue != null
+                              ? widget.displayValue!(item)
+                              : item.toString().split('.').last,
                           style: const TextStyle(color: Colors.black),
                         ),
                       );
                     }).toList(),
-                    onChanged: onChanged,
+                    onChanged: _handleChange,
                     decoration: InputDecoration(
                       border: InputBorder.none,
-                      hintText: label,
+                      hintText: widget.label,
                     ),
                   ),
                 ),
@@ -110,19 +138,19 @@ class SharedDropdownWidget<T> extends StatelessWidget {
             ),
           ],
         ),
-        if (isError && errorMessage != null)
+        if (widget.isError && widget.errorMessage != null)
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
             child: Text(
-              errorMessage!,
+              widget.errorMessage!,
               style: const TextStyle(color: Colors.red),
             ),
           ),
-        if (isSuccess && successMessage != null)
+        if (_showSuccessMessage && widget.successMessage != null)
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
             child: Text(
-              successMessage!,
+              widget.successMessage!,
               style: const TextStyle(color: Colors.green),
             ),
           ),

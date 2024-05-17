@@ -4,9 +4,19 @@ import 'package:open_weather_example_flutter/src/features/weather/application/pr
 import 'package:open_weather_example_flutter/src/features/weather/presentation/weather_page.dart';
 import 'package:provider/provider.dart';
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 void main() {
   setupInjection();
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider<WeatherProvider>(
+            create: (_) => WeatherProvider(), lazy: false),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -23,6 +33,7 @@ class MyApp extends StatelessWidget {
       )
     ]);
     return MaterialApp(
+      navigatorKey: navigatorKey,
       title: 'Flutter Weather App',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -39,15 +50,7 @@ class MyApp extends StatelessWidget {
           bodySmall: const TextStyle(color: Colors.white70, fontSize: 13),
         ),
       ),
-      home: MultiProvider(
-        providers: [
-          ChangeNotifierProvider<WeatherProvider>(
-              create: (_) => WeatherProvider(), lazy: false),
-        ],
-        builder: (context, _) {
-          return const WeatherPage(city: 'London');
-        },
-      ),
+      home: const WeatherPage(city: 'London'),
     );
   }
 }

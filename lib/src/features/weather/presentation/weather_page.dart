@@ -126,6 +126,7 @@ class CustomEndDrawer extends StatelessWidget {
             value: weatherProvider.selectedUnit,
             label: 'Unit',
             successMessage: 'Successfully updated',
+            displayValue: (p0) => getUnitName(p0),
             onChanged: (Unit? newValue) {
               weatherProvider.updateUnit(newValue!);
             },
@@ -143,6 +144,7 @@ class CustomEndDrawer extends StatelessWidget {
             value: weatherProvider.selectedForecastRange,
             label: 'Range',
             successMessage: 'Successfully updated',
+            displayValue: (p0) => getForecastRangeName(p0),
             onChanged: (ForecastRange? newValue) {
               weatherProvider.updateForecastRange(newValue!);
             },

@@ -71,6 +71,8 @@ class CurrentSunRiseWeather extends StatelessWidget {
         final state = data.$2;
         final weatherData = data.$3;
         final errorMessage = data.$4;
+        final unit = Provider.of<WeatherProvider>(context).selectedUnit;
+        final unitSymbol = getTemperatureUnitSymbol(unit);
 
         switch (state) {
           case WeatherState.loading:
@@ -108,13 +110,13 @@ class CurrentSunRiseWeather extends StatelessWidget {
                               Expanded(
                                 child: DataContainer(
                                     title: "Humidity",
-                                    value: "${weatherData.main.humidity}"),
+                                    value: "${weatherData.main.humidity}%"),
                               ),
                               Expanded(
                                 child: DataContainer(
                                     title: "Wind",
                                     value:
-                                        "${weatherData.wind.speed.toString()} km/h"),
+                                        "${weatherData.wind.speed.toString()} ${unit == Unit.metric ? 'km/h' : 'mph'}"),
                               ),
                             ],
                           ),
@@ -157,9 +159,12 @@ class CurrentWeatherWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final unit = Provider.of<WeatherProvider>(context).selectedUnit;
+    final unitSymbol = getTemperatureUnitSymbol(unit);
 
     final temp = data.main.temp.toInt().toString();
     final feelsLike = data.main.feelsLike.toInt().toString();
+
     return BlurWrapper(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -169,14 +174,14 @@ class CurrentWeatherWidget extends StatelessWidget {
           Column(
             children: [
               Text(
-                '$temp C',
+                '$temp $unitSymbol',
                 style: textTheme.displayMedium?.copyWith(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Text(
-                'Feels $feelsLike C',
+                'Feels like $feelsLike $unitSymbol',
                 style: textTheme.bodyMedium?.copyWith(
                   color: Colors.white70,
                 ),

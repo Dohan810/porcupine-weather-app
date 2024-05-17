@@ -10,7 +10,40 @@ enum WeatherState { initial, loading, loaded, error }
 
 enum Unit { metric, imperial }
 
+String getUnitName(Unit unit) {
+  switch (unit) {
+    case Unit.metric:
+      return 'Metric';
+    case Unit.imperial:
+      return 'Imperial';
+    default:
+      return '';
+  }
+}
+
+String getTemperatureUnitSymbol(Unit unit) {
+  switch (unit) {
+    case Unit.metric:
+      return 'C';
+    case Unit.imperial:
+      return 'F';
+    default:
+      return '';
+  }
+}
+
 enum ForecastRange { daily, threeHourly }
+
+String getForecastRangeName(ForecastRange range) {
+  switch (range) {
+    case ForecastRange.daily:
+      return 'Daily';
+    case ForecastRange.threeHourly:
+      return '3 hourly';
+    default:
+      return '';
+  }
+}
 
 class WeatherProvider extends ChangeNotifier {
   // Call getWeatherData on initialization
@@ -40,18 +73,19 @@ class WeatherProvider extends ChangeNotifier {
 
   void updateUnit(Unit unit) {
     selectedUnit = unit;
+    getWeatherData();
     notifyListeners();
   }
 
   void updateForecastRange(ForecastRange range) {
     selectedForecastRange = range;
+    getForecastData();
     notifyListeners();
   }
 
   Future<void> getWeatherData() async {
     try {
       currentWeatherState = WeatherState.loading;
-      forecastWeatherState = WeatherState.loading;
       notifyListeners();
 
       final weather = await repository.getWeather(city: city);
@@ -65,10 +99,8 @@ class WeatherProvider extends ChangeNotifier {
       await getForecastData();
 
       currentWeatherState = WeatherState.loaded;
-      forecastWeatherState = WeatherState.loaded;
     } catch (e) {
       currentWeatherState = WeatherState.error;
-      forecastWeatherState = WeatherState.error;
       errorMessage = "Unable to find location";
     } finally {
       notifyListeners();
@@ -77,11 +109,16 @@ class WeatherProvider extends ChangeNotifier {
 
   Future<void> getForecastData() async {
     try {
+      forecastWeatherState = WeatherState.loading;
       final forecast = await repository.getForecast(city: city);
       hourlyWeatherProvider = forecast;
+
+      forecastWeatherState = WeatherState.loaded;
     } catch (e) {
       forecastWeatherState = WeatherState.error;
       errorMessage = "Unable to find location";
+    } finally {
+      notifyListeners();
     }
   }
 

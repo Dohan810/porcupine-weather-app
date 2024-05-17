@@ -45,11 +45,19 @@ class ForecastWeather extends StatelessWidget {
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: forecastList.map((data) {
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: DailyWeather(weatherData: data),
+                        return Container(
+                          width: Provider.of<WeatherProvider>(context,
+                                          listen: false)
+                                      .selectedForecastRange ==
+                                  ForecastRange.daily
+                              ? MediaQuery.of(context).size.width / 5
+                              : null,
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: FittedBox(
+                            fit: BoxFit.contain,
+                            child: DailyWeather(weatherData: data),
+                          ),
                         );
                       }).toList(),
                     ),
@@ -75,12 +83,12 @@ class DailyWeather extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
 
-    final dayTime = getDayTime(weatherData.dt);
+    final dayTime = getDayTime(context, weatherData.dt);
     final temp = weatherData.main.temp.toInt().toString();
     final iconUrl = weatherData.weather[0].iconUrl;
 
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(dayTime,
             style: textTheme.bodyLarge?.copyWith(color: Colors.white)),
@@ -97,12 +105,19 @@ class DailyWeather extends StatelessWidget {
     );
   }
 
-  String getDayTime(int timestamp) {
+  String getDayTime(BuildContext context, int timestamp) {
+    final weatherProvider =
+        Provider.of<WeatherProvider>(context, listen: false);
     final date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
     final day =
         ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][date.weekday % 7];
     final time =
         "${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}";
-    return "$day $time";
+
+    if (weatherProvider.selectedForecastRange == ForecastRange.daily) {
+      return day;
+    } else {
+      return "$day $time";
+    }
   }
 }

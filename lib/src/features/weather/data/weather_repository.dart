@@ -1,9 +1,12 @@
 import 'package:http/http.dart' as http;
+import 'package:open_weather_example_flutter/main.dart';
 import 'dart:convert';
 
 import 'package:open_weather_example_flutter/src/api/api.dart';
 import 'package:open_weather_example_flutter/src/features/models/forecast_data/forecast_data.dart';
 import 'package:open_weather_example_flutter/src/features/models/weather_data/weather_data.dart';
+import 'package:open_weather_example_flutter/src/features/weather/application/providers.dart';
+import 'package:provider/provider.dart';
 
 class HttpWeatherRepository {
   final OpenWeatherMapAPI api;
@@ -25,13 +28,22 @@ class HttpWeatherRepository {
   }
 
   Future<ForecastData?> getForecast({required String city}) async {
+    final forecastRange = Provider.of<WeatherProvider>(
+      navigatorKey.currentContext!,
+      listen: false,
+    ).selectedForecastRange;
+
     final Uri url = api.forecast(city);
     final http.Response response = await client.get(url);
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = json.decode(response.body);
-      // return ForecastData.fromJson(data);
-      return _filterDailyForecast(data);
+
+      if (forecastRange == ForecastRange.threeHourly) {
+        return ForecastData.fromJson(data);
+      } else {
+        return _filterDailyForecast(data);
+      }
     } else {
       throw Exception('Failed to load forecast data');
     }

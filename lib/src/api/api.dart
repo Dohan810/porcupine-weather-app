@@ -1,3 +1,7 @@
+import 'package:open_weather_example_flutter/main.dart';
+import 'package:open_weather_example_flutter/src/features/weather/application/providers.dart';
+import 'package:provider/provider.dart';
+
 /// Uri builder class for the OpenWeatherMap API
 class OpenWeatherMapAPI {
   OpenWeatherMapAPI(this.apiKey);
@@ -29,11 +33,18 @@ class OpenWeatherMapAPI {
     );
   }
 
-  Map<String, dynamic> cityQueryParameters(String city) => {
-        "q": city,
-        "appid": apiKey,
-        "units": "metric",
-        "type": "like",
-        "cnt": "30",
-      };
+  Map<String, dynamic> cityQueryParameters(String city) {
+    final unit = Provider.of<WeatherProvider>(
+      navigatorKey.currentContext!,
+      listen: false,
+    ).selectedUnit;
+
+    return {
+      "q": city,
+      "appid": apiKey,
+      "units": unit == Unit.imperial ? "imperial" : "metric",
+      "type": "like",
+      "cnt": "30",
+    };
+  }
 }
