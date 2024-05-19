@@ -47,7 +47,7 @@ class _WeatherPageMobileState extends State<FeatureWeatherTablet> {
               inverted: true,
               child: ConstrainedBox(
                 constraints: const BoxConstraints(
-                  maxWidth: 300,
+                  maxWidth: 400,
                 ),
                 child: ListView(
                   children: [
@@ -57,9 +57,7 @@ class _WeatherPageMobileState extends State<FeatureWeatherTablet> {
                     const SizedBox(height: 16),
                     const CurrentSunRiseWeather(),
                     const SizedBox(height: 16),
-                    const Flexible(
-                      child: CurrentWeatherDetails(),
-                    ),
+                    const CurrentWeatherDetails(),
                     const SizedBox(height: 16),
                     LinkTextButton(
                         text: "Read more about '$city' weather",

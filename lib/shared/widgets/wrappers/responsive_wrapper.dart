@@ -14,7 +14,7 @@ class SharedResponsiveWrapper extends StatelessWidget {
     required this.desktopView,
   });
 
-  static const int mobileBreakpoint = 600;
+  static const int mobileBreakpoint = 680;
   static const int tabletBreakpoint = 1024;
 
   @override

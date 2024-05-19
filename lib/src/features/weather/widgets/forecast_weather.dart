@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 import 'package:open_weather_example_flutter/src/features/models/forecast_data/forecast_data.dart';
 import 'package:open_weather_example_flutter/src/features/weather/application/providers.dart';
 import 'package:open_weather_example_flutter/src/features/weather/presentation/weather_page.dart';
@@ -16,11 +16,8 @@ class ForecastWeather extends StatelessWidget {
       builder: (context, provider, _) {
         final state = provider.forecastWeatherState;
         final forecastData = provider.hourlyWeatherProvider;
-        final errorMessage = provider.errorMessage;
 
         switch (state) {
-          case WeatherState.loading:
-            return const Center(child: CircularProgressIndicator());
           case WeatherState.loaded:
             if (forecastData == null) {
               return const Center(child: Text("No forecast data available"));
@@ -34,26 +31,28 @@ class ForecastWeather extends StatelessWidget {
               children: [
                 Text(
                   "Forecast",
-                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
                 ),
                 addSpace(2),
-                BlurWrapper(
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: forecastList.map((data) {
-                        return Container(
-                          constraints: const BoxConstraints(maxHeight: 100),
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          child: FittedBox(
-                            fit: BoxFit.contain,
+                Container(
+                  constraints: const BoxConstraints(maxHeight: 180),
+                  child: BlurWrapper(
+                    child: ScrollConfiguration(
+                      behavior: ScrollConfiguration.of(context).copyWith(
+                        scrollbars: true,
+                      ),
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: forecastList.map((data) {
+                          return Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
                             child: DailyWeather(weatherData: data),
-                          ),
-                        );
-                      }).toList(),
+                          );
+                        }).toList(),
+                      ),
                     ),
                   ),
                 ),
@@ -80,12 +79,18 @@ class DailyWeather extends StatelessWidget {
     final dayTime = getDayTime(context, weatherData.dt);
     final temp = weatherData.main.temp.toInt().toString();
     final iconUrl = weatherData.weather[0].iconUrl;
+    final date = DateTime.fromMillisecondsSinceEpoch(weatherData.dt * 1000);
+    final day = DateFormat('E')
+        .format(date); // Format the date to get the day abbreviation
+    final dayOfMonth = DateFormat('d').format(date); // Get the day of the month
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(dayTime,
             style: textTheme.bodyLarge?.copyWith(color: Colors.white)),
+        Text("${dayOfMonth}th",
+            style: textTheme.bodySmall?.copyWith(color: Colors.grey)),
         const SizedBox(height: 8),
         CachedNetworkImage(
           imageUrl: iconUrl,

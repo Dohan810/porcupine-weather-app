@@ -33,12 +33,10 @@ class WeatherPage extends StatelessWidget {
             return BackgroundImageWrapper(
               backgroundImagePath: backgroundImagePath,
               child: const SafeArea(
-                child: Expanded(
-                  child: SharedResponsiveWrapper(
-                    mobileView: FeatureWeatherMobile(),
-                    tabletView: FeatureWeatherTablet(),
-                    desktopView: FeatureWeatherDesktop(),
-                  ),
+                child: SharedResponsiveWrapper(
+                  mobileView: FeatureWeatherMobile(),
+                  tabletView: FeatureWeatherTablet(),
+                  desktopView: FeatureWeatherDesktop(),
                 ),
               ),
             );

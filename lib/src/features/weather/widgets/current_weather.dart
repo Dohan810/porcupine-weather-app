@@ -37,8 +37,6 @@ class CurrentWeather extends StatelessWidget {
         final errorMessage = data.$4;
 
         switch (state) {
-          case WeatherState.loading:
-            return const Center(child: CircularProgressIndicator());
           case WeatherState.loaded:
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,8 +78,6 @@ class CurrentSunRiseWeather extends StatelessWidget {
         final unitSymbol = getTemperatureUnitSymbol(unit);
 
         switch (state) {
-          case WeatherState.loading:
-            return const Center(child: CircularProgressIndicator());
           case WeatherState.loaded:
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -135,8 +131,6 @@ class CurrentWeatherDetails extends StatelessWidget {
         final unit = Provider.of<WeatherProvider>(context).selectedUnit;
 
         switch (state) {
-          case WeatherState.loading:
-            return const Center(child: CircularProgressIndicator());
           case WeatherState.loaded:
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,

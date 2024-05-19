@@ -44,32 +44,40 @@ class _FeatureWeatherDesktopState extends State<FeatureWeatherDesktop> {
             ),
             const SizedBox(width: 16),
             // Right Section: Forecast and Details
-            BlurWrapper(
-              inverted: true,
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(
-                  maxWidth: 600,
+            Consumer<WeatherProvider>(builder: (context, provider, _) {
+              final state = provider.currentWeatherState;
+
+              switch (state) {
+                case WeatherState.loading:
+                  return const CircularProgressIndicator();
+                default:
+              }
+
+              return BlurWrapper(
+                inverted: true,
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(
+                    maxWidth: 600,
+                  ),
+                  child: ListView(
+                    children: [
+                      const CitySearchBox(),
+                      const SizedBox(height: 16),
+                      const ForecastWeather(),
+                      const SizedBox(height: 16),
+                      const CurrentSunRiseWeather(),
+                      const SizedBox(height: 16),
+                      const CurrentWeatherDetails(),
+                      const SizedBox(height: 16),
+                      LinkTextButton(
+                          text: "Read more about '$city' weather",
+                          townName: Provider.of<WeatherProvider>(context).city),
+                      const SizedBox(height: 16),
+                    ],
+                  ),
                 ),
-                child: ListView(
-                  children: [
-                    const CitySearchBox(),
-                    const SizedBox(height: 16),
-                    const ForecastWeather(),
-                    const SizedBox(height: 16),
-                    const CurrentSunRiseWeather(),
-                    const SizedBox(height: 16),
-                    const Flexible(
-                      child: CurrentWeatherDetails(),
-                    ),
-                    const SizedBox(height: 16),
-                    LinkTextButton(
-                        text: "Read more about '$city' weather",
-                        townName: Provider.of<WeatherProvider>(context).city),
-                    const SizedBox(height: 16),
-                  ],
-                ),
-              ),
-            ),
+              );
+            }),
           ],
         ),
       ),
