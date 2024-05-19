@@ -2,10 +2,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:open_weather_example_flutter/src/features/models/forecast_data/forecast_data.dart';
+import 'package:open_weather_example_flutter/src/features/models/forecast_data/static_forecast_data.dart';
+import 'package:open_weather_example_flutter/src/features/models/weather_data/static_weather_data.dart';
+import 'package:open_weather_example_flutter/src/features/models/weather_data/weather_data.dart';
 import 'package:open_weather_example_flutter/src/features/weather/application/providers.dart';
 import 'package:open_weather_example_flutter/src/features/weather/presentation/weather_page.dart';
 import 'package:open_weather_example_flutter/utils/formatting_utils.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ForecastWeather extends StatelessWidget {
   const ForecastWeather({super.key});
@@ -18,6 +22,17 @@ class ForecastWeather extends StatelessWidget {
         final forecastData = provider.hourlyWeatherProvider;
 
         switch (state) {
+          case WeatherState.loading:
+            return Shimmer.fromColors(
+              baseColor: Colors.grey,
+              highlightColor: Colors.white,
+              child: BlurWrapper(
+                child: SizedBox(
+                  height: 180,
+                  width: MediaQuery.of(context).size.width,
+                ),
+              ),
+            );
           case WeatherState.loaded:
             if (forecastData == null) {
               return const Center(child: Text("No forecast data available"));
@@ -68,7 +83,6 @@ class ForecastWeather extends StatelessWidget {
               ],
             );
           case WeatherState.initial:
-          case WeatherState.loading:
           default:
             return Container();
         }

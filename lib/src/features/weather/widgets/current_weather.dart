@@ -17,6 +17,8 @@ import 'package:provider/provider.dart';
 
 import 'dart:ui' as ui;
 
+import 'package:shimmer/shimmer.dart';
+
 class CurrentWeather extends StatelessWidget {
   const CurrentWeather({super.key});
 
@@ -37,6 +39,17 @@ class CurrentWeather extends StatelessWidget {
         final errorMessage = data.$4;
 
         switch (state) {
+          case WeatherState.loading:
+            return Shimmer.fromColors(
+              baseColor: Colors.grey,
+              highlightColor: Colors.white,
+              child: BlurWrapper(
+                child: SizedBox(
+                  height: 180,
+                  width: MediaQuery.of(context).size.width,
+                ),
+              ),
+            );
           case WeatherState.loaded:
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,6 +91,17 @@ class CurrentSunRiseWeather extends StatelessWidget {
         final unitSymbol = getTemperatureUnitSymbol(unit);
 
         switch (state) {
+          case WeatherState.loading:
+            return Shimmer.fromColors(
+              baseColor: Colors.grey,
+              highlightColor: Colors.white,
+              child: BlurWrapper(
+                child: SizedBox(
+                  height: 180,
+                  width: MediaQuery.of(context).size.width,
+                ),
+              ),
+            );
           case WeatherState.loaded:
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -131,6 +155,17 @@ class CurrentWeatherDetails extends StatelessWidget {
         final unit = Provider.of<WeatherProvider>(context).selectedUnit;
 
         switch (state) {
+          case WeatherState.loading:
+            return Shimmer.fromColors(
+              baseColor: Colors.grey,
+              highlightColor: Colors.white,
+              child: BlurWrapper(
+                child: SizedBox(
+                  height: 180,
+                  width: MediaQuery.of(context).size.width,
+                ),
+              ),
+            );
           case WeatherState.loaded:
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,

@@ -31,31 +31,22 @@ class _WeatherPageMobileState extends State<FeatureWeatherMobile> {
           children: [
             const CitySearchBox(),
             addSpace(8),
-            Consumer<WeatherProvider>(builder: (context, provider, _) {
-              final state = provider.currentWeatherState;
-
-              switch (state) {
-                case WeatherState.loading:
-                  return const Center(child: CircularProgressIndicator());
-                default:
-              }
-              return Column(
-                children: [
-                  const CurrentWeather(),
-                  addSpace(8),
-                  const ForecastWeather(),
-                  addSpace(8),
-                  const CurrentSunRiseWeather(),
-                  addSpace(8),
-                  const CurrentWeatherDetails(),
-                  addSpace(8),
-                  LinkTextButton(
-                    text: "Read more about '$city' weather",
-                    townName: Provider.of<WeatherProvider>(context).city,
-                  ),
-                ],
-              );
-            }),
+            Column(
+              children: [
+                const CurrentWeather(),
+                addSpace(8),
+                const ForecastWeather(),
+                addSpace(8),
+                const CurrentSunRiseWeather(),
+                addSpace(8),
+                const CurrentWeatherDetails(),
+                addSpace(8),
+                LinkTextButton(
+                  text: "Read more about '$city' weather",
+                  townName: Provider.of<WeatherProvider>(context).city,
+                ),
+              ],
+            )
           ],
         ),
       ),
