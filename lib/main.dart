@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:open_weather_example_flutter/src/api/api_keys.dart';
 import 'package:open_weather_example_flutter/src/constants/app_colors.dart';
@@ -28,6 +30,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      scrollBehavior: CustomScrollBehavior(),
       navigatorKey: navigatorKey,
       title: 'WeatherWise',
       debugShowCheckedModeBanner: false,
@@ -38,4 +41,13 @@ class MyApp extends StatelessWidget {
       home: const WeatherPage(city: 'London'),
     );
   }
+}
+
+class CustomScrollBehavior extends MaterialScrollBehavior {
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+        PointerDeviceKind.touch,
+        PointerDeviceKind.mouse,
+        PointerDeviceKind.stylus,
+      };
 }
