@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:open_weather_example_flutter/shared/widgets/wrappers/animation_wrapper.dart';
 import 'package:open_weather_example_flutter/src/features/models/forecast_data/forecast_data.dart';
 import 'package:open_weather_example_flutter/src/features/models/forecast_data/static_forecast_data.dart';
 import 'package:open_weather_example_flutter/src/features/models/weather_data/static_weather_data.dart';
@@ -41,46 +42,48 @@ class ForecastWeather extends StatelessWidget {
 
             if (forecastList.isEmpty) return const SizedBox.shrink();
 
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Forecast",
-                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                ),
-                addSpace(2),
-                Container(
-                  constraints: const BoxConstraints(maxHeight: 180),
-                  child: BlurWrapper(
-                    child: ScrollConfiguration(
-                      behavior: ScrollConfiguration.of(context).copyWith(
-                        scrollbars: true,
-                      ),
-                      child: LayoutBuilder(
-                        builder: (context, constraints) {
-                          return ListView(
-                            scrollDirection: Axis.horizontal,
-                            children: forecastList.map((data) {
-                              return Container(
-                                constraints: BoxConstraints(
-                                  minWidth: constraints.maxWidth /
-                                      forecastList.length,
-                                ),
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 16),
-                                child: DailyWeather(weatherData: data),
-                              );
-                            }).toList(),
-                          );
-                        },
+            return AnimationWrapper(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Forecast",
+                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                  addSpace(2),
+                  Container(
+                    constraints: const BoxConstraints(maxHeight: 180),
+                    child: BlurWrapper(
+                      child: ScrollConfiguration(
+                        behavior: ScrollConfiguration.of(context).copyWith(
+                          scrollbars: true,
+                        ),
+                        child: LayoutBuilder(
+                          builder: (context, constraints) {
+                            return ListView(
+                              scrollDirection: Axis.horizontal,
+                              children: forecastList.map((data) {
+                                return Container(
+                                  constraints: BoxConstraints(
+                                    minWidth: constraints.maxWidth /
+                                        forecastList.length,
+                                  ),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16),
+                                  child: DailyWeather(weatherData: data),
+                                );
+                              }).toList(),
+                            );
+                          },
+                        ),
                       ),
                     ),
-                  ),
-                )
-              ],
+                  )
+                ],
+              ),
             );
           case WeatherState.initial:
           default:

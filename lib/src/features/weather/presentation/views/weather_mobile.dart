@@ -36,40 +36,33 @@ class _WeatherPageMobileState extends State<FeatureWeatherMobile> {
             Expanded(
               child: ListView(
                 children: [
-                  addSpace(8),
-                  Column(
-                    children: [
-                      const CurrentWeather(),
-                      addSpace(8),
-                      Consumer<WeatherProvider>(
-                          builder: (context, provider, _) {
-                        final state = provider.forecastWeatherState;
-                        final forecastData = provider.hourlyWeatherProvider;
+                  addSpace(4),
+                  Consumer<WeatherProvider>(builder: (context, provider, _) {
+                    final state = provider.forecastWeatherState;
 
-                        switch (state) {
-                          case WeatherState.error:
-                            return const NoResultsPage();
-                          default:
-                        }
+                    switch (state) {
+                      case WeatherState.error:
+                        return const NoResultsPage();
+                      default:
+                    }
 
-                        return Column(
-                          children: [
-                            const ForecastWeather(),
-                            addSpace(8),
-                            const CurrentSunRiseWeather(),
-                            addSpace(8),
-                            const CurrentWeatherDetails(),
-                            addSpace(8),
-                            LinkTextButton(
-                              text: "Read more about '$city' weather",
-                              townName:
-                                  Provider.of<WeatherProvider>(context).city,
-                            ),
-                          ],
-                        );
-                      }),
-                    ],
-                  )
+                    return Column(
+                      children: [
+                        const CurrentWeather(),
+                        addSpace(8),
+                        const ForecastWeather(),
+                        addSpace(8),
+                        const CurrentSunRiseWeather(),
+                        addSpace(8),
+                        const CurrentWeatherDetails(),
+                        addSpace(8),
+                        LinkTextButton(
+                          text: "Read more about '$city' weather",
+                          townName: Provider.of<WeatherProvider>(context).city,
+                        ),
+                      ],
+                    );
+                  })
                 ],
               ),
             ),

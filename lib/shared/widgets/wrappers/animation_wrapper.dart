@@ -1,80 +1,61 @@
 import 'package:flutter/material.dart';
 
-class SharedAnimatedWrapper extends StatefulWidget {
+class AnimationWrapper extends StatefulWidget {
   final Widget child;
   final Duration duration;
-  final Axis direction;
-  final bool isExpanded;
+  final Curve curve;
 
-  const SharedAnimatedWrapper({
-    required this.child,
-    required this.duration,
-    this.direction = Axis.horizontal,
-    this.isExpanded = false,
+  const AnimationWrapper({
     super.key,
+    required this.child,
+    this.duration = const Duration(milliseconds: 300),
+    this.curve = Curves.easeInOut,
   });
 
   @override
-  State<SharedAnimatedWrapper> createState() => _AnimatedWrapperState();
+  _AnimationWrapperState createState() => _AnimationWrapperState();
 }
 
-class _AnimatedWrapperState extends State<SharedAnimatedWrapper>
+class _AnimationWrapperState extends State<AnimationWrapper>
     with SingleTickerProviderStateMixin {
-  late final AnimationController _animationController;
-  late final Animation<double> _sizeAnimation;
-  late final Animation<double> _fadeAnimation;
+  late AnimationController _controller;
+  late Animation<double> _animation;
 
   @override
   void initState() {
     super.initState();
-    _animationController = AnimationController(
-      vsync: this,
+    _controller = AnimationController(
       duration: widget.duration,
+      vsync: this,
     );
-    _sizeAnimation =
-        Tween<double>(begin: 0, end: 200).animate(_animationController);
-    _fadeAnimation =
-        Tween<double>(begin: 0, end: 1).animate(_animationController);
 
-    if (widget.isExpanded) {
-      _animationController.forward();
-    }
-  }
+    _animation = CurvedAnimation(
+      parent: _controller,
+      curve: widget.curve,
+    );
 
-  @override
-  void didUpdateWidget(SharedAnimatedWrapper oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.isExpanded) {
-      _animationController.forward();
-    } else {
-      _animationController.reverse();
-    }
+    _controller.forward();
   }
 
   @override
   void dispose() {
-    _animationController.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return FadeTransition(
-      opacity: _fadeAnimation,
-      child: AnimatedBuilder(
-        animation: _sizeAnimation,
-        builder: (context, child) {
-          return SizedBox(
-            width: widget.direction == Axis.horizontal
-                ? _sizeAnimation.value
-                : null,
-            height:
-                widget.direction == Axis.vertical ? _sizeAnimation.value : null,
-            child: child,
-          );
-        },
-        child: widget.child,
-      ),
+    return AnimatedBuilder(
+      animation: _animation,
+      builder: (context, child) {
+        return FadeTransition(
+          opacity: _animation,
+          child: ScaleTransition(
+            scale: _animation,
+            child: widget.child,
+          ),
+        );
+      },
     );
   }
 }

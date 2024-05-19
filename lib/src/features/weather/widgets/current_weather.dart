@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:open_weather_example_flutter/shared/widgets/swipe/smooth_swiper.dart';
+import 'package:open_weather_example_flutter/shared/widgets/wrappers/animation_wrapper.dart';
 import 'package:open_weather_example_flutter/src/features/models/weather_data/weather_data.dart';
 import 'package:open_weather_example_flutter/src/features/weather/application/providers.dart';
 import 'package:open_weather_example_flutter/src/features/weather/presentation/weather_page.dart';
@@ -55,8 +56,11 @@ class CurrentWeather extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (weatherData != null)
-                  CurrentWeatherWidget(
-                    data: weatherData,
+                  AnimationWrapper(
+                    curve: Curves.bounceOut,
+                    child: CurrentWeatherWidget(
+                      data: weatherData,
+                    ),
                   ),
               ],
             );
@@ -103,28 +107,31 @@ class CurrentSunRiseWeather extends StatelessWidget {
               ),
             );
           case WeatherState.loaded:
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (weatherData != null) ...[
-                  Text(
-                    'Sun Rise Details',
-                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                  ),
-                  addSpace(2),
-                  SunPathWidget(
-                    sunrise: DateTime.fromMillisecondsSinceEpoch(
-                      weatherData.sys.sunrise * 1000,
+            return AnimationWrapper(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (weatherData != null) ...[
+                    Text(
+                      'Sun Rise Details',
+                      style:
+                          Theme.of(context).textTheme.headlineSmall?.copyWith(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
                     ),
-                    sunset: DateTime.fromMillisecondsSinceEpoch(
-                      weatherData.sys.sunset * 1000,
+                    addSpace(2),
+                    SunPathWidget(
+                      sunrise: DateTime.fromMillisecondsSinceEpoch(
+                        weatherData.sys.sunrise * 1000,
+                      ),
+                      sunset: DateTime.fromMillisecondsSinceEpoch(
+                        weatherData.sys.sunset * 1000,
+                      ),
                     ),
-                  ),
-                ]
-              ],
+                  ]
+                ],
+              ),
             );
           case WeatherState.initial:
           default:
@@ -151,7 +158,6 @@ class CurrentWeatherDetails extends StatelessWidget {
       builder: (context, data, _) {
         final state = data.$2;
         final weatherData = data.$3;
-        final errorMessage = data.$4;
         final unit = Provider.of<WeatherProvider>(context).selectedUnit;
 
         switch (state) {
@@ -167,54 +173,57 @@ class CurrentWeatherDetails extends StatelessWidget {
               ),
             );
           case WeatherState.loaded:
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (weatherData != null) ...[
-                  Text(
-                    'Additional Details',
-                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
+            return AnimationWrapper(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (weatherData != null) ...[
+                    Text(
+                      'Additional Details',
+                      style:
+                          Theme.of(context).textTheme.headlineSmall?.copyWith(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                    ),
+                    addSpace(2),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(
+                              child: DataContainer(
+                                  title: "Humidity",
+                                  value: "${weatherData.main.humidity}%"),
+                            ),
+                            Expanded(
+                              child: DataContainer(
+                                  title: "Wind",
+                                  value:
+                                      "${weatherData.wind.speed.toString()} ${unit == Unit.metric ? 'km/h' : 'mph'}"),
+                            ),
+                          ],
                         ),
-                  ),
-                  addSpace(2),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: DataContainer(
-                                title: "Humidity",
-                                value: "${weatherData.main.humidity}%"),
-                          ),
-                          Expanded(
-                            child: DataContainer(
-                                title: "Wind",
-                                value:
-                                    "${weatherData.wind.speed.toString()} ${unit == Unit.metric ? 'km/h' : 'mph'}"),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: DataContainer(
-                                title: "Pressure",
-                                value: "${weatherData.main.pressure} mb/h"),
-                          ),
-                          Expanded(
-                            child: DataContainer(
-                                title: "Visibility",
-                                value: "${weatherData.visibility / 1000} km"),
-                          ),
-                        ],
-                      ),
-                    ],
-                  )
-                ]
-              ],
+                        Row(
+                          children: [
+                            Expanded(
+                              child: DataContainer(
+                                  title: "Pressure",
+                                  value: "${weatherData.main.pressure} mb/h"),
+                            ),
+                            Expanded(
+                              child: DataContainer(
+                                  title: "Visibility",
+                                  value: "${weatherData.visibility / 1000} km"),
+                            ),
+                          ],
+                        ),
+                      ],
+                    )
+                  ]
+                ],
+              ),
             );
           case WeatherState.initial:
           default:

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:open_weather_example_flutter/shared/widgets/buttons/link_button.dart';
+import 'package:open_weather_example_flutter/shared/widgets/static/noResultsFound.dart';
 import 'package:open_weather_example_flutter/src/features/weather/application/providers.dart';
 import 'package:open_weather_example_flutter/src/features/weather/presentation/weather_page.dart';
 import 'package:open_weather_example_flutter/src/features/weather/widgets/city_search_box.dart';
@@ -55,16 +56,30 @@ class _FeatureWeatherDesktopState extends State<FeatureWeatherDesktop> {
                   children: [
                     const CitySearchBox(),
                     addSpace(8),
-                    const ForecastWeather(),
-                    addSpace(8),
-                    const CurrentSunRiseWeather(),
-                    addSpace(8),
-                    const CurrentWeatherDetails(),
-                    addSpace(8),
-                    LinkTextButton(
-                        text: "Read more about '$city' weather",
-                        townName: Provider.of<WeatherProvider>(context).city),
-                    const SizedBox(height: 16),
+                    Consumer<WeatherProvider>(builder: (context, provider, _) {
+                      final state = provider.forecastWeatherState;
+
+                      switch (state) {
+                        case WeatherState.error:
+                          return const NoResultsPage();
+                        default:
+                      }
+                      return Column(
+                        children: [
+                          const ForecastWeather(),
+                          addSpace(8),
+                          const CurrentSunRiseWeather(),
+                          addSpace(8),
+                          const CurrentWeatherDetails(),
+                          addSpace(8),
+                          LinkTextButton(
+                              text: "Read more about '$city' weather",
+                              townName:
+                                  Provider.of<WeatherProvider>(context).city),
+                          addSpace(8),
+                        ],
+                      );
+                    }),
                   ],
                 ),
               ),
