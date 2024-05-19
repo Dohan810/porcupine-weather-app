@@ -30,6 +30,7 @@ class _WeatherPageMobileState extends State<FeatureWeatherMobile> {
         child: ListView(
           children: [
             const CitySearchBox(),
+            addSpace(8),
             Consumer<WeatherProvider>(builder: (context, provider, _) {
               final state = provider.currentWeatherState;
 

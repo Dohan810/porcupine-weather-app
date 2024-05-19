@@ -343,10 +343,16 @@ class SunPathWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final currentTime = DateTime.now();
     final isSunsetPassed = currentTime.isAfter(sunset);
+    final isSunrisePassed = currentTime.isAfter(sunrise);
+    final isNightTime = isSunsetPassed || !isSunrisePassed;
 
     final nextSunrise =
         isSunsetPassed ? sunrise.add(const Duration(days: 1)) : sunrise;
     final timeFormatter = DateFormat('hh:mma');
+
+    final totalDuration = sunset.difference(sunrise).inSeconds;
+    final elapsedDuration = currentTime.difference(sunrise).inSeconds;
+    final sunPosition = (elapsedDuration / totalDuration).clamp(0.0, 1.0);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -361,7 +367,7 @@ class SunPathWidget extends StatelessWidget {
                 Center(
                   child: Column(
                     children: [
-                      if (isSunsetPassed)
+                      if (isNightTime)
                         Text(
                           'Next sunrise at ${timeFormatter.format(nextSunrise)}',
                           style: const TextStyle(
@@ -370,23 +376,13 @@ class SunPathWidget extends StatelessWidget {
                           ),
                         ),
                       CustomPaint(
-                        painter: SunPathPainter(),
-                        child: SizedBox(
-                          width: 200,
+                        painter: SunPathPainter(
+                          sunPosition: sunPosition,
+                          isNightTime: isNightTime,
+                        ),
+                        child: const SizedBox(
+                          width: 600,
                           height: 100,
-                          child: Stack(
-                            children: [
-                              if (!isSunsetPassed)
-                                const Positioned(
-                                  top: 20,
-                                  left: 140,
-                                  child: Icon(
-                                    Icons.wb_sunny,
-                                    color: Colors.orange,
-                                  ),
-                                ),
-                            ],
-                          ),
                         ),
                       ),
                       const SizedBox(height: 8.0),
@@ -422,7 +418,13 @@ class SunPathWidget extends StatelessWidget {
 }
 
 class SunPathPainter extends CustomPainter {
-  SunPathPainter();
+  final double sunPosition;
+  final bool isNightTime;
+
+  SunPathPainter({
+    required this.sunPosition,
+    required this.isNightTime,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -441,11 +443,35 @@ class SunPathPainter extends CustomPainter {
       );
 
     canvas.drawPath(path, paint);
+
+    final point = _calculateQuadraticBezierPoint(
+      sunPosition,
+      Offset(0, size.height),
+      Offset(size.width / 2, 0),
+      Offset(size.width, size.height),
+    );
+
+    final sunPaint = Paint()
+      ..color =
+          isNightTime ? Colors.grey : const Color.fromARGB(255, 255, 115, 0)
+      ..style = PaintingStyle.fill;
+
+    canvas.drawCircle(point, 14, sunPaint);
+  }
+
+  Offset _calculateQuadraticBezierPoint(
+      double t, Offset p0, Offset p1, Offset p2) {
+    final x =
+        (1 - t) * (1 - t) * p0.dx + 2 * (1 - t) * t * p1.dx + t * t * p2.dx;
+    final y =
+        (1 - t) * (1 - t) * p0.dy + 2 * (1 - t) * t * p1.dy + t * t * p2.dy;
+    return Offset(x, y);
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return false;
+  bool shouldRepaint(covariant SunPathPainter oldDelegate) {
+    return oldDelegate.sunPosition != sunPosition ||
+        oldDelegate.isNightTime != isNightTime;
   }
 }
 

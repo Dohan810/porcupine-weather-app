@@ -5,6 +5,7 @@ import 'package:open_weather_example_flutter/src/features/weather/presentation/w
 import 'package:open_weather_example_flutter/src/features/weather/widgets/city_search_box.dart';
 import 'package:open_weather_example_flutter/src/features/weather/widgets/current_weather.dart';
 import 'package:open_weather_example_flutter/src/features/weather/widgets/forecast_weather.dart';
+import 'package:open_weather_example_flutter/utils/formatting_utils.dart';
 import 'package:provider/provider.dart';
 
 class FeatureWeatherTablet extends StatefulWidget {
@@ -52,13 +53,13 @@ class _WeatherPageMobileState extends State<FeatureWeatherTablet> {
                 child: ListView(
                   children: [
                     const CitySearchBox(),
-                    const SizedBox(height: 16),
+                    addSpace(8),
                     const ForecastWeather(),
-                    const SizedBox(height: 16),
+                    addSpace(8),
                     const CurrentSunRiseWeather(),
-                    const SizedBox(height: 16),
+                    addSpace(8),
                     const CurrentWeatherDetails(),
-                    const SizedBox(height: 16),
+                    addSpace(8),
                     LinkTextButton(
                         text: "Read more about '$city' weather",
                         townName: Provider.of<WeatherProvider>(context).city),

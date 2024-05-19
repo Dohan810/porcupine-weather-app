@@ -44,21 +44,31 @@ class ForecastWeather extends StatelessWidget {
                       behavior: ScrollConfiguration.of(context).copyWith(
                         scrollbars: true,
                       ),
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        children: forecastList.map((data) {
-                          return Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: DailyWeather(weatherData: data),
+                      child: LayoutBuilder(
+                        builder: (context, constraints) {
+                          return ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: forecastList.map((data) {
+                              return Container(
+                                constraints: BoxConstraints(
+                                  minWidth: constraints.maxWidth /
+                                      forecastList.length,
+                                ),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 16),
+                                child: DailyWeather(weatherData: data),
+                              );
+                            }).toList(),
                           );
-                        }).toList(),
+                        },
                       ),
                     ),
                   ),
-                ),
+                )
               ],
             );
           case WeatherState.initial:
+          case WeatherState.loading:
           default:
             return Container();
         }
