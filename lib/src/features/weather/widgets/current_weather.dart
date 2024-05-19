@@ -1,23 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:intl/intl.dart';
-import 'package:open_weather_example_flutter/shared/widgets/swipe/smooth_swiper.dart';
 import 'package:open_weather_example_flutter/shared/widgets/wrappers/animation_wrapper.dart';
 import 'package:open_weather_example_flutter/src/features/models/weather_data/weather_data.dart';
 import 'package:open_weather_example_flutter/src/features/weather/application/providers.dart';
 import 'package:open_weather_example_flutter/src/features/weather/presentation/weather_page.dart';
-import 'package:open_weather_example_flutter/src/features/weather/widgets/forecast_weather.dart';
-import 'package:open_weather_example_flutter/src/features/weather/widgets/sun_path_weather.dart';
 import 'package:open_weather_example_flutter/src/features/weather/widgets/weather_icon_image.dart';
 import 'package:open_weather_example_flutter/src/shared/application/layout_provider.dart';
 import 'package:open_weather_example_flutter/utils/date_utils.dart';
-import 'package:open_weather_example_flutter/utils/formatting_utils.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import 'dart:ui' as ui;
 
 import 'package:shimmer/shimmer.dart';
 
@@ -93,36 +83,42 @@ class CurrentWeatherWidget extends StatelessWidget {
     final feelsLike = data.main.feelsLike.toInt().toString();
 
     if (deviceType == DeviceType.desktop) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          WeatherIconImage(iconUrl: data.weather[0].iconUrl, size: 100),
-          Text(
-            '$temp $unitSymbol',
-            style: textTheme.displayLarge?.copyWith(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(width: 32),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+      return Align(
+        alignment: Alignment.bottomLeft,
+        child: FittedBox(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
             children: [
+              WeatherIconImage(iconUrl: data.weather[0].iconUrl, size: 100),
               Text(
-                Provider.of<WeatherProvider>(context).city.toUpperCase(),
-                style: textTheme.headlineMedium?.copyWith(
-                    color: Colors.white, fontWeight: FontWeight.bold),
+                '$temp $unitSymbol',
+                style: textTheme.displayLarge?.copyWith(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 140,
+                    overflow: TextOverflow.fade),
               ),
-              Text(
-                CustomDateUtils.formatDate(DateTime.now()),
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      color: Colors.white70,
-                    ),
+              const SizedBox(width: 32),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    Provider.of<WeatherProvider>(context).city.toUpperCase(),
+                    style: textTheme.headlineMedium?.copyWith(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    CustomDateUtils.formatDate(DateTime.now()),
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          color: Colors.white70,
+                        ),
+                  ),
+                ],
               ),
             ],
           ),
-        ],
+        ),
       );
     }
 

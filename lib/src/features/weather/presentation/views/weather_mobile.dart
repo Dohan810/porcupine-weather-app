@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:open_weather_example_flutter/shared/widgets/buttons/link_button.dart';
 import 'package:open_weather_example_flutter/shared/widgets/static/noResultsFound.dart';
 import 'package:open_weather_example_flutter/src/features/weather/application/providers.dart';

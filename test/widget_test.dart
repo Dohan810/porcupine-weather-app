@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:open_weather_example_flutter/shared/widgets/buttons/link_button.dart';
 import 'package:open_weather_example_flutter/src/features/weather/application/providers.dart';
 import 'package:open_weather_example_flutter/src/shared/application/layout_provider.dart';
 import 'package:provider/provider.dart';
@@ -8,7 +7,6 @@ import 'package:get_it/get_it.dart';
 import 'package:open_weather_example_flutter/main.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/mockito.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class MockClient extends Mock implements http.Client {}
 

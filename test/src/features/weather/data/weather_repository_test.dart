@@ -1,11 +1,8 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:open_weather_example_flutter/main.dart';
-import 'package:open_weather_example_flutter/src/api/api.dart';
 import 'package:open_weather_example_flutter/src/features/models/forecast_data/static_forecast_data.dart';
 import 'package:open_weather_example_flutter/src/features/models/weather_data/static_weather_data.dart';
-import 'package:open_weather_example_flutter/src/features/models/weather_data/weather_data.dart';
 import 'package:open_weather_example_flutter/src/features/weather/application/providers.dart';
 import 'package:open_weather_example_flutter/src/features/weather/data/weather_repository.dart';
 import 'package:open_weather_example_flutter/src/shared/application/layout_provider.dart';

@@ -7,7 +7,6 @@ import 'package:open_weather_example_flutter/src/features/weather/widgets/additi
 import 'package:open_weather_example_flutter/src/features/weather/widgets/city_search_box.dart';
 import 'package:open_weather_example_flutter/src/features/weather/widgets/current_weather.dart';
 import 'package:open_weather_example_flutter/src/features/weather/widgets/forecast_weather.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:open_weather_example_flutter/src/features/weather/widgets/sun_path_weather.dart';
 import 'package:open_weather_example_flutter/utils/formatting_utils.dart';
 import 'package:provider/provider.dart';
