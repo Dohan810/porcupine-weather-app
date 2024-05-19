@@ -1,89 +1,105 @@
-// import 'package:flutter_test/flutter_test.dart';
-// import 'package:http/http.dart' as http;
-// import 'package:mocktail/mocktail.dart';
-// import 'package:open_weather_example_flutter/src/api/api.dart';
-// import 'package:open_weather_example_flutter/src/features/models/weather/weather.dart';
-// import 'package:open_weather_example_flutter/src/features/models/weather_info/weather_info.dart';
-// import 'package:open_weather_example_flutter/src/features/models/weather_params/weather_params.dart';
-// import 'package:open_weather_example_flutter/src/features/weather/data/weather_repository.dart';
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:open_weather_example_flutter/main.dart';
+import 'package:open_weather_example_flutter/src/api/api.dart';
+import 'package:open_weather_example_flutter/src/features/models/forecast_data/static_forecast_data.dart';
+import 'package:open_weather_example_flutter/src/features/models/weather_data/static_weather_data.dart';
+import 'package:open_weather_example_flutter/src/features/models/weather_data/weather_data.dart';
+import 'package:open_weather_example_flutter/src/features/weather/application/providers.dart';
+import 'package:open_weather_example_flutter/src/features/weather/data/weather_repository.dart';
+import 'package:open_weather_example_flutter/src/shared/application/layout_provider.dart';
+import 'package:provider/provider.dart';
+import 'package:get_it/get_it.dart';
+import 'package:http/http.dart' as http;
+import 'package:mockito/mockito.dart';
 
-// class MockHttpClient extends Mock implements http.Client {}
+class MockWeatherRepository extends Mock implements HttpWeatherRepository {}
 
-// const encodedWeatherJsonResponse = """
-// {
-//   "coord": {
-//     "lon": -122.08,
-//     "lat": 37.39
-//   },
-//   "weather": [
-//     {
-//       "id": 800,
-//       "main": "Clear",
-//       "description": "clear sky",
-//       "icon": "01d"
-//     }
-//   ],
-//   "base": "stations",
-//   "main": {
-//     "temp": 282.55,
-//     "feels_like": 281.86,
-//     "temp_min": 280.37,
-//     "temp_max": 284.26,
-//     "pressure": 1023,
-//     "humidity": 100
-//   },
-//   "visibility": 16093,
-//   "wind": {
-//     "speed": 1.5,
-//     "deg": 350
-//   },
-//   "clouds": {
-//     "all": 1
-//   },
-//   "dt": 1560350645,
-//   "sys": {
-//     "type": 1,
-//     "id": 5122,
-//     "message": 0.0139,
-//     "country": "US",
-//     "sunrise": 1560343627,
-//     "sunset": 1560396563
-//   },
-//   "timezone": -25200,
-//   "id": 420006353,
-//   "name": "Mountain View",
-//   "cod": 200
-//   }  
-// """;
+class MockClient extends Mock implements http.Client {}
 
-// const expectedWeatherFromJson = WeatherModel(
-//   weatherParams: WeatherParams(temp: 282.55, tempMin: 280.37, tempMax: 284.26),
-//   weatherInfo: [
-//     WeatherInfo(
-//       description: 'clear sky',
-//       icon: '01d',
-//       main: 'Clear',
-//     )
-//   ],
-//   dt: 1560350645,
-// );
+void setup() {
+  final getIt = GetIt.instance;
+  getIt.registerSingleton<String>("your_api_key", instanceName: "api_key");
+}
 
-// void main() {
-//   // test('repository with mocked http client, success', () async {
-//   //   final mockHttpClient = MockHttpClient();
-//   //   final api = OpenWeatherMapAPI('apiKey');
-//   //   final weatherRepository =
-//   //       HttpWeatherRepository(api: api, client: mockHttpClient);
-//   //   //TODO Mock http and ensure weather is correct
-//   // });
+void main() {
+  setup();
 
-//   // test('repository with mocked http client, failure', () async {
-//   //   final mockHttpClient = MockHttpClient();
-//   //   final api = OpenWeatherMapAPI('apiKey');
-//   //   final weatherRepository =
-//   //       HttpWeatherRepository(api: api, client: mockHttpClient);
-//   //   //TODO Mock http 404 and ensure api returns CityNotFoundException
-//   // });
+  testWidgets('Mock HTTP Test To Get Weather Data',
+      (WidgetTester tester) async {
+    final mockClient = MockClient();
 
-//   //TODO test providers data as well
-// }
+    print("Step 1: Pumping the widget with providers");
+    await tester.pumpWidget(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+              create: (_) => WeatherProvider(client: mockClient)),
+          ChangeNotifierProvider(create: (_) => LayoutProvider()),
+        ],
+        child: const MyApp(),
+      ),
+    );
+    await tester.pumpAndSettle(Durations.extralong4);
+
+    print("Step 2: Retrieving WeatherProvider instance");
+    final weatherProvider = Provider.of<WeatherProvider>(
+      tester.element(find.byType(MyApp)),
+      listen: false,
+    );
+
+    when(weatherProvider.getWeatherData()).thenAnswer((realInvocation) {
+      weatherProvider.currentWeatherProvider = staticWeatherData;
+
+      throw "";
+    });
+
+    print("Step 3: Fetching weather data");
+    await weatherProvider.getWeatherData();
+    await tester.pumpAndSettle(Durations.extralong4);
+
+    print("Step 4: Verifying fetched weather data");
+    expect(weatherProvider.currentWeatherProvider?.name, 'Cape Town');
+    expect(weatherProvider.currentWeatherProvider?.main.temp, 25.0);
+    expect(weatherProvider.currentWeatherProvider?.weather.first.main, 'Clear');
+  });
+
+  testWidgets('Mock HTTP Test To Get Forecast Data',
+      (WidgetTester tester) async {
+    final mockClient = MockClient();
+
+    print("Step 1: Pumping the widget with providers");
+    await tester.pumpWidget(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+              create: (_) => WeatherProvider(client: mockClient)),
+          ChangeNotifierProvider(create: (_) => LayoutProvider()),
+        ],
+        child: const MyApp(),
+      ),
+    );
+    await tester.pumpAndSettle(Durations.extralong4);
+
+    print("Step 2: Retrieving WeatherProvider instance");
+    final weatherProvider = Provider.of<WeatherProvider>(
+      tester.element(find.byType(MyApp)),
+      listen: false,
+    );
+
+    when(weatherProvider.getForecastData()).thenAnswer((realInvocation) {
+      weatherProvider.hourlyWeatherProvider = staticForecastData;
+
+      throw "";
+    });
+
+    print("Step 3: Fetching forecast data");
+    await weatherProvider.getForecastData();
+    await tester.pumpAndSettle(Durations.extralong4);
+
+    print("Step 4: Verifying fetched froecast data");
+    expect(weatherProvider.hourlyWeatherProvider?.city.name, 'New York');
+    expect(weatherProvider.hourlyWeatherProvider?.list[0].main.feelsLike, 19.0);
+  });
+}

@@ -46,14 +46,12 @@ String getForecastRangeName(ForecastRange range) {
 }
 
 class WeatherProvider extends ChangeNotifier {
-  WeatherProvider() {
-    getWeatherData();
-  }
+  WeatherProvider({http.Client? client})
+      : repository = HttpWeatherRepository(
+            api: OpenWeatherMapAPI(sl<String>(instanceName: 'api_key')),
+            client: client ?? http.Client());
 
-  HttpWeatherRepository repository = HttpWeatherRepository(
-    api: OpenWeatherMapAPI(sl<String>(instanceName: 'api_key')),
-    client: http.Client(),
-  );
+  HttpWeatherRepository repository;
 
   ValueNotifier<String> locationBackgroundNotifier =
       ValueNotifier<String>("assets/default.png");

@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:open_weather_example_flutter/shared/widgets/buttons/link_button.dart';
 import 'package:open_weather_example_flutter/shared/widgets/dropdowns/dropdown.dart';
 import 'package:open_weather_example_flutter/shared/widgets/wrappers/responsive_wrapper.dart';
 import 'package:open_weather_example_flutter/src/constants/app_colors.dart';
@@ -23,12 +24,13 @@ class WeatherPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final weatherProvider = Provider.of<WeatherProvider>(context);
+
     return Scaffold(
       key: scaffoldKey,
       drawer: const CustomEndDrawer(),
       body: ValueListenableBuilder<String>(
-          valueListenable:
-              context.read<WeatherProvider>().locationBackgroundNotifier,
+          valueListenable: weatherProvider.locationBackgroundNotifier,
           builder: (context, backgroundImagePath, _) {
             return BackgroundImageWrapper(
               backgroundImagePath: backgroundImagePath,
@@ -156,6 +158,12 @@ class CustomEndDrawer extends StatelessWidget {
             onChanged: (ForecastRange? newValue) {
               weatherProvider.updateForecastRange(newValue!);
             },
+          ),
+          addSpace(8),
+          LinkTextButton(
+            text: "Read more about '${weatherProvider.city}' weather",
+            townName: weatherProvider.city,
+            textColor: Colors.black,
           ),
         ],
       ),

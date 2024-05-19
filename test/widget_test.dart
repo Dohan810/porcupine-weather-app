@@ -1,30 +1,61 @@
-// // This is a basic Flutter widget test.
-// //
-// // To perform an interaction with a widget in your test, use the WidgetTester
-// // utility in the flutter_test package. For example, you can send tap and scroll
-// // gestures. You can also use WidgetTester to find child widgets in the widget
-// // tree, read text, and verify that the values of widget properties are correct.
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:open_weather_example_flutter/shared/widgets/buttons/link_button.dart';
+import 'package:open_weather_example_flutter/src/features/weather/application/providers.dart';
+import 'package:open_weather_example_flutter/src/shared/application/layout_provider.dart';
+import 'package:provider/provider.dart';
+import 'package:get_it/get_it.dart';
+import 'package:open_weather_example_flutter/main.dart';
+import 'package:http/http.dart' as http;
+import 'package:mockito/mockito.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-// import 'package:flutter/material.dart';
-// import 'package:flutter_test/flutter_test.dart';
+class MockClient extends Mock implements http.Client {}
 
-// import 'package:weather_app/main.dart';
+void setup() {
+  final getIt = GetIt.instance;
 
-// void main() {
-//   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-//     // Build our app and trigger a frame.
-//     await tester.pumpWidget(const MyApp());
+  getIt.registerSingleton<String>("your_api_key", instanceName: "api_key");
+}
 
-//     // Verify that our counter starts at 0.
-//     expect(find.text('0'), findsOneWidget);
-//     expect(find.text('1'), findsNothing);
+void main() {
+  setUpAll(() {
+    setup();
+  });
 
-//     // Tap the '+' icon and trigger a frame.
-//     await tester.tap(find.byIcon(Icons.add));
-//     await tester.pump();
+  testWidgets('Add Text To Textfield Search', (WidgetTester tester) async {
+    print("Screen size: ${tester.binding.window.physicalSize}");
 
-//     // Verify that our counter has incremented.
-//     expect(find.text('0'), findsNothing);
-//     expect(find.text('1'), findsOneWidget);
-//   });
-// }
+    final mockClient = MockClient();
+
+    print("Step 1: Initializing the test");
+
+    final searchButton = find.byKey(const Key("searchIconButton"));
+    final searchField = find.byKey(const Key("searchTextField"));
+
+    print("Step 2: Pumping the widget with Provider");
+    await tester.pumpWidget(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+              create: (_) => WeatherProvider(client: mockClient)),
+          ChangeNotifierProvider(create: (_) => LayoutProvider()),
+        ],
+        child: const MyApp(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    print("Step 3: Tapping the search button");
+    await tester.tap(searchButton);
+    await tester.pumpAndSettle();
+
+    print("Step 4: Entering text in the search field");
+    await tester.enterText(searchField, "Cape Town");
+
+    print("Step 5: Rebuilding the widget");
+    await tester.pump();
+
+    expect(find.text("Cape Town"), findsOneWidget);
+  });
+}

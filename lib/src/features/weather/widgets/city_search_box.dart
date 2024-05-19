@@ -209,6 +209,7 @@ class _CitySearchRowState extends State<CitySearchBox> {
                             ),
                             Expanded(
                               child: TextField(
+                                key: const Key("searchTextField"),
                                 controller: _searchController,
                                 decoration: InputDecoration(
                                   fillColor: Colors.white,
@@ -266,6 +267,7 @@ class _CitySearchRowState extends State<CitySearchBox> {
           Row(
             children: [
               IconButton(
+                key: const Key("searchIconButton"),
                 icon: const Icon(
                   Icons.search,
                   color: Colors.white,

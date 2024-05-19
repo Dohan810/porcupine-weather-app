@@ -1,13 +1,13 @@
 import 'package:open_weather_example_flutter/src/features/models/weather_data/weather_data.dart';
 
 const WeatherData staticWeatherData = WeatherData(
-  coord: Coord(lon: 10.0, lat: 20.0),
+  coord: Coord(lon: 10.0, lat: 25.0),
   weather: [
     Weather(id: 800, main: 'Clear', description: 'clear sky', icon: '01d'),
   ],
   base: 'stations',
   main: Main(
-    temp: 20.0,
+    temp: 25.0,
     feelsLike: 19.0,
     tempMin: 18.0,
     tempMax: 22.0,
@@ -27,6 +27,6 @@ const WeatherData staticWeatherData = WeatherData(
   ),
   timezone: -14400,
   id: 5128581,
-  name: 'New York',
+  name: 'Cape Town',
   cod: 200,
 );
