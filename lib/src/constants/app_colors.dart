@@ -2,11 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppColors {
-  static const rainBlueLight = Color(0xFF4480C6);
-  static const rainBlueDark = Color(0xFF364699);
-  static const rainGradient = [rainBlueLight, rainBlueDark];
-  static const accentColor = Color(0xFFe96e50);
-
   // Define text styles for mobile, tablet, and web with different sizes
   static final textStyleWithShadowMobile = GoogleFonts.lora(
     textStyle: const TextStyle(

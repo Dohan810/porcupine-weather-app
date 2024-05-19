@@ -13,8 +13,8 @@ class NoResultsPage extends StatelessWidget {
           children: [
             Image.asset(
               'assets/gifs/sunIsWarm.gif',
-              width: 100,
-              height: 100,
+              width: 180,
+              height: 180,
             ),
             const SizedBox(height: 20),
             Text(

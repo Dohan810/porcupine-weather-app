@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:open_weather_example_flutter/shared/widgets/wrappers/animation_expanded_wrapper.dart';
 import 'package:open_weather_example_flutter/src/features/weather/application/providers.dart';
 import 'package:open_weather_example_flutter/src/features/weather/presentation/weather_page.dart';
-import 'package:open_weather_example_flutter/src/shared/application/layout_provider.dart';
+import 'package:open_weather_example_flutter/shared/application/layout_provider.dart';
 import 'package:open_weather_example_flutter/utils/date_utils.dart';
 import 'package:open_weather_example_flutter/utils/formatting_utils.dart';
 import 'package:provider/provider.dart';

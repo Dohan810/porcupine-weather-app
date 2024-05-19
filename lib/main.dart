@@ -5,7 +5,7 @@ import 'package:open_weather_example_flutter/src/api/api_keys.dart';
 import 'package:open_weather_example_flutter/src/constants/app_colors.dart';
 import 'package:open_weather_example_flutter/src/features/weather/application/providers.dart';
 import 'package:open_weather_example_flutter/src/features/weather/presentation/weather_page.dart';
-import 'package:open_weather_example_flutter/src/shared/application/layout_provider.dart';
+import 'package:open_weather_example_flutter/shared/application/layout_provider.dart';
 import 'package:provider/provider.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();

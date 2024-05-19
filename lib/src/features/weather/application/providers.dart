@@ -5,45 +5,10 @@ import 'package:open_weather_example_flutter/src/features/models/forecast_data/f
 import 'package:open_weather_example_flutter/src/features/models/weather_data/weather_data.dart';
 import 'package:open_weather_example_flutter/src/features/weather/data/weather_repository.dart';
 import 'package:http/http.dart' as http;
+import 'package:open_weather_example_flutter/src/features/weather/enums/forecast_enum.dart';
+import 'package:open_weather_example_flutter/src/features/weather/enums/unit_enums.dart';
 
 enum WeatherState { initial, loading, loaded, error }
-
-enum Unit { metric, imperial }
-
-String getUnitName(Unit unit) {
-  switch (unit) {
-    case Unit.metric:
-      return 'Metric';
-    case Unit.imperial:
-      return 'Imperial';
-    default:
-      return '';
-  }
-}
-
-String getTemperatureUnitSymbol(Unit unit) {
-  switch (unit) {
-    case Unit.metric:
-      return 'C';
-    case Unit.imperial:
-      return 'F';
-    default:
-      return '';
-  }
-}
-
-enum ForecastRange { daily, threeHourly }
-
-String getForecastRangeName(ForecastRange range) {
-  switch (range) {
-    case ForecastRange.daily:
-      return 'Daily';
-    case ForecastRange.threeHourly:
-      return '3 hourly';
-    default:
-      return '';
-  }
-}
 
 class WeatherProvider extends ChangeNotifier {
   WeatherProvider({http.Client? client})

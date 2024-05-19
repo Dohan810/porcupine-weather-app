@@ -5,6 +5,8 @@ import 'package:open_weather_example_flutter/shared/widgets/buttons/link_button.
 import 'package:open_weather_example_flutter/shared/widgets/dropdowns/dropdown.dart';
 import 'package:open_weather_example_flutter/shared/widgets/wrappers/responsive_wrapper.dart';
 import 'package:open_weather_example_flutter/src/features/weather/application/providers.dart';
+import 'package:open_weather_example_flutter/src/features/weather/enums/forecast_enum.dart';
+import 'package:open_weather_example_flutter/src/features/weather/enums/unit_enums.dart';
 import 'package:open_weather_example_flutter/src/features/weather/presentation/views/weather_desktop.dart';
 import 'package:open_weather_example_flutter/src/features/weather/presentation/views/weather_mobile.dart';
 import 'package:open_weather_example_flutter/src/features/weather/presentation/views/weather_tablet.dart';
