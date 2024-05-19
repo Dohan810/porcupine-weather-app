@@ -4,9 +4,11 @@ import 'package:flutter/widgets.dart';
 import 'package:open_weather_example_flutter/shared/widgets/buttons/link_button.dart';
 import 'package:open_weather_example_flutter/shared/widgets/static/noResultsFound.dart';
 import 'package:open_weather_example_flutter/src/features/weather/application/providers.dart';
+import 'package:open_weather_example_flutter/src/features/weather/widgets/additional_info_weather.dart';
 import 'package:open_weather_example_flutter/src/features/weather/widgets/city_search_box.dart';
 import 'package:open_weather_example_flutter/src/features/weather/widgets/current_weather.dart';
 import 'package:open_weather_example_flutter/src/features/weather/widgets/forecast_weather.dart';
+import 'package:open_weather_example_flutter/src/features/weather/widgets/sun_path_weather.dart';
 import 'package:open_weather_example_flutter/utils/formatting_utils.dart';
 import 'package:provider/provider.dart';
 
