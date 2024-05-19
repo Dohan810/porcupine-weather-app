@@ -1,5 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:open_weather_example_flutter/shared/widgets/buttons/link_button.dart';
+import 'package:open_weather_example_flutter/shared/widgets/static/noResultsFound.dart';
 import 'package:open_weather_example_flutter/src/features/weather/application/providers.dart';
 import 'package:open_weather_example_flutter/src/features/weather/widgets/city_search_box.dart';
 import 'package:open_weather_example_flutter/src/features/weather/widgets/current_weather.dart';
@@ -27,26 +30,49 @@ class _WeatherPageMobileState extends State<FeatureWeatherMobile> {
               Provider.of<WeatherProvider>(context, listen: false);
           await weatherProvider.getWeatherData();
         },
-        child: ListView(
+        child: Column(
           children: [
             const CitySearchBox(),
-            addSpace(8),
-            Column(
-              children: [
-                const CurrentWeather(),
-                addSpace(8),
-                const ForecastWeather(),
-                addSpace(8),
-                const CurrentSunRiseWeather(),
-                addSpace(8),
-                const CurrentWeatherDetails(),
-                addSpace(8),
-                LinkTextButton(
-                  text: "Read more about '$city' weather",
-                  townName: Provider.of<WeatherProvider>(context).city,
-                ),
-              ],
-            )
+            Expanded(
+              child: ListView(
+                children: [
+                  addSpace(8),
+                  Column(
+                    children: [
+                      const CurrentWeather(),
+                      addSpace(8),
+                      Consumer<WeatherProvider>(
+                          builder: (context, provider, _) {
+                        final state = provider.forecastWeatherState;
+                        final forecastData = provider.hourlyWeatherProvider;
+
+                        switch (state) {
+                          case WeatherState.error:
+                            return const NoResultsPage();
+                          default:
+                        }
+
+                        return Column(
+                          children: [
+                            const ForecastWeather(),
+                            addSpace(8),
+                            const CurrentSunRiseWeather(),
+                            addSpace(8),
+                            const CurrentWeatherDetails(),
+                            addSpace(8),
+                            LinkTextButton(
+                              text: "Read more about '$city' weather",
+                              townName:
+                                  Provider.of<WeatherProvider>(context).city,
+                            ),
+                          ],
+                        );
+                      }),
+                    ],
+                  )
+                ],
+              ),
+            ),
           ],
         ),
       ),
