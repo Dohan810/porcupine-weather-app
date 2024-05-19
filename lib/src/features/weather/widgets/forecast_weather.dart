@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:open_weather_example_flutter/src/features/models/forecast_data/forecast_data.dart';
 import 'package:open_weather_example_flutter/src/features/weather/application/providers.dart';
 import 'package:open_weather_example_flutter/src/features/weather/presentation/weather_page.dart';
@@ -20,8 +21,6 @@ class ForecastWeather extends StatelessWidget {
         switch (state) {
           case WeatherState.loading:
             return const Center(child: CircularProgressIndicator());
-          case WeatherState.error:
-            return Center(child: Text(errorMessage ?? "Error occurred"));
           case WeatherState.loaded:
             if (forecastData == null) {
               return const Center(child: Text("No forecast data available"));
@@ -35,7 +34,7 @@ class ForecastWeather extends StatelessWidget {
               children: [
                 Text(
                   "Forecast",
-                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
@@ -47,12 +46,7 @@ class ForecastWeather extends StatelessWidget {
                     child: Row(
                       children: forecastList.map((data) {
                         return Container(
-                          width: Provider.of<WeatherProvider>(context,
-                                          listen: false)
-                                      .selectedForecastRange ==
-                                  ForecastRange.daily
-                              ? MediaQuery.of(context).size.width / 5
-                              : null,
+                          constraints: const BoxConstraints(maxHeight: 100),
                           padding: const EdgeInsets.symmetric(horizontal: 16),
                           child: FittedBox(
                             fit: BoxFit.contain,

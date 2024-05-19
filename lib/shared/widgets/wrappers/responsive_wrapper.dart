@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:open_weather_example_flutter/src/shared/application/layout_provider.dart';
+import 'package:provider/provider.dart';
 
 class SharedResponsiveWrapper extends StatelessWidget {
   final Widget mobileView;
@@ -19,11 +21,16 @@ class SharedResponsiveWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
+        final layoutProvider = Provider.of<LayoutProvider>(context);
+
         if (constraints.maxWidth < mobileBreakpoint) {
+          layoutProvider.setDeviceType(DeviceType.mobile);
           return mobileView;
         } else if (constraints.maxWidth < tabletBreakpoint) {
+          layoutProvider.setDeviceType(DeviceType.tablet);
           return tabletView;
         } else {
+          layoutProvider.setDeviceType(DeviceType.desktop);
           return desktopView;
         }
       },

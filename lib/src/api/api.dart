@@ -34,10 +34,14 @@ class OpenWeatherMapAPI {
   }
 
   Map<String, dynamic> cityQueryParameters(String city) {
-    final unit = Provider.of<WeatherProvider>(
-      navigatorKey.currentContext!,
-      listen: false,
-    ).selectedUnit;
+    Unit unit = Unit.metric;
+
+    if (navigatorKey.currentContext != null) {
+      unit = Provider.of<WeatherProvider>(
+        navigatorKey.currentContext!,
+        listen: false,
+      ).selectedUnit;
+    }
 
     return {
       "q": city,

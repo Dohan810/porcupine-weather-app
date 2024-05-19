@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:open_weather_example_flutter/shared/widgets/buttons/link_button.dart';
 import 'package:open_weather_example_flutter/src/features/weather/application/providers.dart';
 import 'package:open_weather_example_flutter/src/features/weather/widgets/city_search_box.dart';
 import 'package:open_weather_example_flutter/src/features/weather/widgets/current_weather.dart';
@@ -16,6 +17,8 @@ class FeatureWeatherMobile extends StatefulWidget {
 class _WeatherPageMobileState extends State<FeatureWeatherMobile> {
   @override
   Widget build(BuildContext context) {
+    String city = Provider.of<WeatherProvider>(context).city;
+
     return Padding(
       padding: const EdgeInsets.all(16),
       child: RefreshIndicator(
@@ -32,6 +35,13 @@ class _WeatherPageMobileState extends State<FeatureWeatherMobile> {
             const ForecastWeather(),
             addSpace(8),
             const CurrentSunRiseWeather(),
+            addSpace(8),
+            const CurrentWeatherDetails(),
+            addSpace(8),
+            LinkTextButton(
+              text: "Read more about '$city' weather",
+              townName: Provider.of<WeatherProvider>(context).city,
+            ),
           ],
         ),
       ),

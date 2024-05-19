@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:open_weather_example_flutter/src/api/api_keys.dart';
+import 'package:open_weather_example_flutter/src/constants/app_colors.dart';
 import 'package:open_weather_example_flutter/src/features/weather/application/providers.dart';
 import 'package:open_weather_example_flutter/src/features/weather/presentation/weather_page.dart';
+import 'package:open_weather_example_flutter/src/shared/application/layout_provider.dart';
 import 'package:provider/provider.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -11,8 +13,9 @@ void main() {
   runApp(
     MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => LayoutProvider()),
         ChangeNotifierProvider<WeatherProvider>(
-            create: (_) => WeatherProvider(), lazy: false),
+            create: (_) => WeatherProvider()..getWeatherData(), lazy: false),
       ],
       child: const MyApp(),
     ),
@@ -24,31 +27,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textStyleWithShadow = TextStyle(color: Colors.white, shadows: [
-      BoxShadow(
-        color: Colors.black12.withOpacity(0.25),
-        spreadRadius: 1,
-        blurRadius: 4,
-        offset: const Offset(0, 0.5),
-      )
-    ]);
     return MaterialApp(
       navigatorKey: navigatorKey,
-      title: 'Flutter Weather App',
+      title: 'WeatherWise',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         brightness: Brightness.light,
-        textTheme: TextTheme(
-          displayLarge: textStyleWithShadow,
-          displayMedium: textStyleWithShadow,
-          displaySmall: textStyleWithShadow,
-          headlineMedium: textStyleWithShadow,
-          headlineSmall: textStyleWithShadow,
-          titleMedium: const TextStyle(color: Colors.white),
-          bodyMedium: const TextStyle(color: Colors.white),
-          bodyLarge: const TextStyle(color: Colors.white),
-          bodySmall: const TextStyle(color: Colors.white70, fontSize: 13),
-        ),
+        textTheme: AppColors.getTextTheme(context),
       ),
       home: const WeatherPage(city: 'London'),
     );
