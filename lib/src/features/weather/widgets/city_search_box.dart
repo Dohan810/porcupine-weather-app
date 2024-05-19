@@ -274,15 +274,24 @@ class _CitySearchRowState extends State<CitySearchBox> {
                 ),
                 onPressed: _toggleSearch,
               ),
-              GestureDetector(
-                child: Image.asset(
-                  "assets/menu.png",
-                  height: 24,
-                ),
-                onTap: () {
-                  scaffoldKey.currentState?.openDrawer();
-                },
-              ),
+              Consumer<WeatherProvider>(builder: (context, provider, _) {
+                final state = provider.forecastWeatherState;
+
+                switch (state) {
+                  case WeatherState.error:
+                    return const SizedBox.shrink();
+                  default:
+                }
+                return GestureDetector(
+                  child: Image.asset(
+                    "assets/menu.png",
+                    height: 24,
+                  ),
+                  onTap: () {
+                    scaffoldKey.currentState?.openDrawer();
+                  },
+                );
+              }),
             ],
           ),
         ]

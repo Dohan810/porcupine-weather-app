@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:open_weather_example_flutter/src/features/weather/application/providers.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LinkTextButton extends StatelessWidget {
@@ -28,30 +30,41 @@ class LinkTextButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      key: const Key("UrlLauncher"),
-      onTap: () => _launchURL(townName),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Flexible(
-            child: Text(
-              text,
-              overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: textColor,
-                  decoration: TextDecoration.underline,
-                  decorationColor: textColor),
+    return Consumer<WeatherProvider>(builder: (context, provider, _) {
+      final state = provider.forecastWeatherState;
+
+      switch (state) {
+        case WeatherState.error:
+          return const SizedBox.shrink();
+        default:
+      }
+
+      return GestureDetector(
+        key: const Key("UrlLauncher"),
+        onTap: () => _launchURL(townName),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Flexible(
+              child: Text(
+                text,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: textColor,
+                    decoration: TextDecoration.underline,
+                    decorationColor: textColor),
+              ),
             ),
-          ),
-          const SizedBox(width: 2), // Replacing addSpace function with SizedBox
-          Icon(
-            Icons.arrow_forward_ios_rounded,
-            color: textColor,
-            size: 12,
-          ),
-        ],
-      ),
-    );
+            const SizedBox(
+                width: 2), // Replacing addSpace function with SizedBox
+            Icon(
+              Icons.arrow_forward_ios_rounded,
+              color: textColor,
+              size: 12,
+            ),
+          ],
+        ),
+      );
+    });
   }
 }
