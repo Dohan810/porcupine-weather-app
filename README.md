@@ -18,6 +18,10 @@ This document provides an overview of the codebase for a Flutter weather applica
 
 ![Mobile View](assets/screenshots/mobile.png)
 
+### Mobile View Cloudy
+
+![Mobile View Cloudy](assets/screenshots/mobile_cloudy.png)
+
 ## Versions and Tools Used
 
 - **Flutter**: 3.19.6
