@@ -7,6 +7,7 @@ import 'package:open_weather_example_flutter/src/features/weather/data/weather_r
 import 'package:http/http.dart' as http;
 import 'package:open_weather_example_flutter/src/features/weather/enums/forecast_enum.dart';
 import 'package:open_weather_example_flutter/src/features/weather/enums/unit_enums.dart';
+import 'package:open_weather_example_flutter/utils/formatting_utils.dart';
 
 enum WeatherState { initial, loading, loaded, error }
 
@@ -60,9 +61,8 @@ class WeatherProvider extends ChangeNotifier {
       }
 
       _updateBackgroundImage(weather.weather.first.main);
-
       if (!previousSearches.contains(city)) {
-        previousSearches.add(city);
+        previousSearches.add(capitalize(city));
       }
 
       await getForecastData();

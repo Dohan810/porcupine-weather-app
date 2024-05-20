@@ -5,7 +5,7 @@ import 'package:open_weather_example_flutter/src/features/models/forecast_data/s
 import 'package:open_weather_example_flutter/src/features/models/weather_data/static_weather_data.dart';
 import 'package:open_weather_example_flutter/src/features/weather/application/providers.dart';
 import 'package:open_weather_example_flutter/src/features/weather/data/weather_repository.dart';
-import 'package:open_weather_example_flutter/shared/application/layout_provider.dart';
+import 'package:open_weather_example_flutter/src/features/weather/application/layout_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;

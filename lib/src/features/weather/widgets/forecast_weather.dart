@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:open_weather_example_flutter/shared/widgets/wrappers/animation_wrapper.dart';
+import 'package:open_weather_example_flutter/src/features/weather/widgets/wrappers/animation_wrapper.dart';
 import 'package:open_weather_example_flutter/src/features/models/forecast_data/forecast_data.dart';
 import 'package:open_weather_example_flutter/src/features/weather/application/providers.dart';
 import 'package:open_weather_example_flutter/src/features/weather/enums/forecast_enum.dart';

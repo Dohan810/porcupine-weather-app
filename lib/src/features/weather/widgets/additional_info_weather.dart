@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:open_weather_example_flutter/shared/widgets/wrappers/animation_wrapper.dart';
+import 'package:open_weather_example_flutter/src/features/weather/widgets/wrappers/animation_wrapper.dart';
 import 'package:open_weather_example_flutter/src/features/models/weather_data/weather_data.dart';
 import 'package:open_weather_example_flutter/src/features/weather/application/providers.dart';
 import 'package:open_weather_example_flutter/src/features/weather/enums/unit_enums.dart';
