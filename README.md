@@ -4,6 +4,20 @@
 
 This document provides an overview of the codebase for a Flutter weather application. It explains the purpose and functionality of each section and file, detailing how the various components interact to form the complete application.
 
+## Screenshots
+
+### Desktop View
+
+![Desktop View](assets/screenshots/desktop.png)
+
+### Tablet View
+
+![Tablet View](assets/screenshots/tablet.png)
+
+### Mobile View
+
+![Mobile View](assets/screenshots/mobile.png)
+
 ## Versions and Tools Used
 
 - **Flutter**: 3.19.6
