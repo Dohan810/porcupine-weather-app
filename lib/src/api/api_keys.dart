@@ -1,3 +1,4 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
 
 /// To get an API key, sign up here:
@@ -8,6 +9,6 @@ final sl = GetIt.instance;
 
 void setupInjection() {
   // Register the API key
-  sl.registerSingleton<String>('c8c70dc3c906d40947ccc93b0c4d5b97',
+  sl.registerSingleton<String>(dotenv.env['OPENWEATHER_API_KEY']!,
       instanceName: 'api_key');
 }
