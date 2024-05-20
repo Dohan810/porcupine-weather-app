@@ -5,7 +5,7 @@ import 'package:open_weather_example_flutter/src/features/weather/widgets/wrappe
 import 'package:open_weather_example_flutter/src/features/models/forecast_data/forecast_data.dart';
 import 'package:open_weather_example_flutter/src/features/weather/application/providers.dart';
 import 'package:open_weather_example_flutter/src/features/weather/enums/forecast_enum.dart';
-import 'package:open_weather_example_flutter/src/features/weather/presentation/weather_page.dart';
+import 'package:open_weather_example_flutter/src/features/weather/widgets/wrappers/blur_wrapper.dart';
 import 'package:open_weather_example_flutter/utils/formatting_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
@@ -105,8 +105,6 @@ class DailyWeather extends StatelessWidget {
     final temp = weatherData.main.temp.toInt().toString();
     final iconUrl = weatherData.weather[0].iconUrl;
     final date = DateTime.fromMillisecondsSinceEpoch(weatherData.dt * 1000);
-    final day = DateFormat('E')
-        .format(date); // Format the date to get the day abbreviation
     final dayOfMonth = DateFormat('d').format(date); // Get the day of the month
 
     return Column(

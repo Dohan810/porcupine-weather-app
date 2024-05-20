@@ -1,18 +1,158 @@
-This is a weather application that allows you to search an areas weather forecast.
+<!-- @format -->
 
-This app will give the current weather data as well as a forecast.
+# Weather Application README
 
-You will need to get this app to compile on android, IOS and web. There are Todos in the code that will help
-guide you to get there.
+This document provides an overview of the codebase for a Flutter weather application. It explains the purpose and functionality of each section and file, detailing how the various components interact to form the complete application.
 
-The forecast component has not been built yet, so please add this functional requirement as well. The assets that are required have already been included.
-Here below are the designs for what the forecast should look like:
+## Project Structure
 
-![alt text](https://raw.githubusercontent.com/Johan-glitch1412/weather_app/main/.github/images/Screenshot%202024-04-16%20at%2013.27.53.png "Logo Title Text 1")
+```folder structure
+lib
+└── src
+├── api
+│ ├── api.dart
+│ ├── api_keys.dart
+├── constants
+│ └── app_colors.dart
+├── features
+│ ├── models
+│ │ ├── forecast_data.dart
+│ │ └── weather_data.dart
+│ └── weather
+│ ├── application
+│ │ ├── layout_provider.dart
+│ │ └── providers.dart
+│ ├── data
+│ │ ├── api_exception.dart
+│ │ └── weather_repository.dart
+│ ├── enums
+│ │ ├── forecast_enum.dart
+│ │ └── unit_enums.dart
+│ ├── presentation
+│ │ └── views
+│ │ ├── weather_desktop.dart
+│ │ ├── weather_mobile.dart
+│ │ ├── weather_tablet.dart
+│ │ └── weather_page.dart
+│ └── widgets
+├── utils
+│ ├── date_utils.dart
+│ └── formatting_utils.dart
+└── main.dart
+```
 
-This code needs to be unit and widget tested as well to ensure that if any changes are made that those tests would pick it up and report the errors.
+## Explanation of Sections and Files
 
-This application uses Provider for state management and an http handler has been built to control all of the API calls.
+### `lib/src/api`
 
-#Bonus:
-Swap from celsius to fahrenheit
+- **api.dart**: Contains the `OpenWeatherMapAPI` class which constructs URIs for API requests to the OpenWeatherMap service. It dynamically builds URIs based on the provided city name and other parameters.
+
+```dart
+import 'package:open_weather_example_flutter/src/api/api_keys.dart';
+import 'package:provider/provider.dart';
+
+class OpenWeatherMapAPI {
+  // ...
+}
+```
+
+- **api_keys.dart**: Stores the API key for accessing the OpenWeatherMap service. This file uses the GetIt package for dependency injection.
+
+```dart
+
+  import 'package:get_it/get_it.dart';
+
+  final sl = GetIt.instance;
+
+  void setupInjection() {
+    // Register the API key
+  }
+```
+
+### `lib/src/constants`
+
+- **app_colors.dart**: Defines text styles with different sizes and shadows for mobile, tablet, and web using the GoogleFonts package. It provides a consistent look and feel across different devices.
+
+### `lib/src/features/models`
+
+- **forecast_data.dart**: Contains data models for the forecast data fetched from the OpenWeatherMap API using the freezed package for immutable data classes. It defines the structure of the data received from the API.
+
+```dart
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'forecast_data.freezed.dart';
+part 'forecast_data.g.dart';
+
+@freezed
+class ForecastData with _$ForecastData {
+  // ...
+}
+```
+
+### `lib/src/features/weather/application`
+
+- **layout_provider.dart**: Manages the layout (mobile, tablet, desktop) and notifies listeners of changes. It determines the appropriate UI layout based on the device type.
+
+```dart
+import 'package:flutter/material.dart';
+
+enum DeviceType { mobile, tablet, desktop }
+
+class LayoutProvider extends ChangeNotifier {
+  // ...
+}
+```
+
+### `lib/src/features/weather/data`
+
+- **api_exception.dart**: Defines custom exceptions for API errors. These exceptions handle specific error cases such as invalid API key, no internet connection, and city not found.
+
+```dart
+class APIException implements Exception {
+  // ...
+}
+
+class InvalidApiKeyException extends APIException {
+  // ...
+}
+
+// Other exceptions...
+```
+
+- **weather_repository.dart**: Contains the HttpWeatherRepository class which handles API requests and data parsing. It interacts with the OpenWeatherMapAPI to fetch data from the API.
+
+### `lib/src/features/weather/enums`
+
+- **forecast_enum.dart**: Defines the ForecastRange enum for daily and three-hourly forecast options. It helps in selecting the type of forecast to display.
+
+```dart
+enum ForecastRange { daily, threeHourly }
+```
+
+- **unit_enums.dart**: Defines the Unit enum for metric and imperial units. It provides a way to switch between measurement units.
+
+```dart
+enum Unit { metric, imperial }
+```
+
+### `lib/src/features/weather/presentation/views`
+
+- **weather_desktop.dart, weather_mobile.dart, weather_tablet.dart**: UI components for different device types. These files contain the widgets and layouts specific to each device type, ensuring a responsive design.
+
+```dart
+import 'package:flutter/material.dart';
+// weather_desktop.dart
+class WeatherDesktop extends StatelessWidget {
+  // ...
+}
+// weather_mobile.dart
+class WeatherMobile extends StatelessWidget {
+  // ...
+}
+// weather_tablet.dart
+class WeatherTablet extends StatelessWidget {
+  // ...
+}
+```
+
+- **weather_page.dart**: Main weather page component that adapts to different device types. It combines the different UI components into a single page and manages the overall layout.

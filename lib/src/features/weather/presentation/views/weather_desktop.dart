@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:open_weather_example_flutter/src/features/weather/widgets/buttons/link_button.dart';
-import 'package:open_weather_example_flutter/src/features/weather/widgets/static/noResultsFound.dart';
+import 'package:open_weather_example_flutter/src/features/weather/widgets/static/no_results_found.dart';
 import 'package:open_weather_example_flutter/src/features/weather/application/providers.dart';
-import 'package:open_weather_example_flutter/src/features/weather/presentation/weather_page.dart';
+import 'package:open_weather_example_flutter/src/features/weather/widgets/wrappers/blur_wrapper.dart';
 import 'package:open_weather_example_flutter/src/features/weather/widgets/additional_info_weather.dart';
 import 'package:open_weather_example_flutter/src/features/weather/widgets/city_search_box.dart';
 import 'package:open_weather_example_flutter/src/features/weather/widgets/current_weather.dart';

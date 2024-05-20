@@ -3,8 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:open_weather_example_flutter/src/features/weather/widgets/wrappers/animation_wrapper.dart';
 import 'package:open_weather_example_flutter/src/features/models/weather_data/weather_data.dart';
 import 'package:open_weather_example_flutter/src/features/weather/application/providers.dart';
-import 'package:open_weather_example_flutter/src/features/weather/enums/unit_enums.dart';
-import 'package:open_weather_example_flutter/src/features/weather/presentation/weather_page.dart';
+import 'package:open_weather_example_flutter/src/features/weather/widgets/wrappers/blur_wrapper.dart';
 import 'package:open_weather_example_flutter/utils/formatting_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
@@ -23,12 +22,8 @@ class CurrentSunRiseWeather extends StatelessWidget {
         provider.errorMessage
       ),
       builder: (context, data, _) {
-        final city = data.$1;
         final state = data.$2;
         final weatherData = data.$3;
-        final errorMessage = data.$4;
-        final unit = Provider.of<WeatherProvider>(context).selectedUnit;
-        final unitSymbol = getTemperatureUnitSymbol(unit);
 
         switch (state) {
           case WeatherState.loading:

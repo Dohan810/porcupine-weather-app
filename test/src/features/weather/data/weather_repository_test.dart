@@ -6,6 +6,7 @@ import 'package:open_weather_example_flutter/src/features/models/weather_data/st
 import 'package:open_weather_example_flutter/src/features/weather/application/providers.dart';
 import 'package:open_weather_example_flutter/src/features/weather/data/weather_repository.dart';
 import 'package:open_weather_example_flutter/src/features/weather/application/layout_provider.dart';
+import 'package:open_weather_example_flutter/utils/print_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
@@ -27,7 +28,7 @@ void main() {
       (WidgetTester tester) async {
     final mockClient = MockClient();
 
-    print("Step 1: Pumping the widget with providers");
+    PrintUtils.printGreen("Step 1: Pumping the widget with providers");
     await tester.pumpWidget(
       MultiProvider(
         providers: [
@@ -40,7 +41,7 @@ void main() {
     );
     await tester.pumpAndSettle(Durations.extralong4);
 
-    print("Step 2: Retrieving WeatherProvider instance");
+    PrintUtils.printGreen("Step 2: Retrieving WeatherProvider instance");
     final weatherProvider = Provider.of<WeatherProvider>(
       tester.element(find.byType(MyApp)),
       listen: false,
@@ -52,11 +53,11 @@ void main() {
       throw "";
     });
 
-    print("Step 3: Fetching weather data");
+    PrintUtils.printGreen("Step 3: Fetching weather data");
     await weatherProvider.getWeatherData();
     await tester.pumpAndSettle(Durations.extralong4);
 
-    print("Step 4: Verifying fetched weather data");
+    PrintUtils.printGreen("Step 4: Verifying fetched weather data");
     expect(weatherProvider.currentWeatherProvider?.name, 'Cape Town');
     expect(weatherProvider.currentWeatherProvider?.main.temp, 25.0);
     expect(weatherProvider.currentWeatherProvider?.weather.first.main, 'Clear');
@@ -66,7 +67,7 @@ void main() {
       (WidgetTester tester) async {
     final mockClient = MockClient();
 
-    print("Step 1: Pumping the widget with providers");
+    PrintUtils.printGreen("Step 1: Pumping the widget with providers");
     await tester.pumpWidget(
       MultiProvider(
         providers: [
@@ -79,7 +80,7 @@ void main() {
     );
     await tester.pumpAndSettle(Durations.extralong4);
 
-    print("Step 2: Retrieving WeatherProvider instance");
+    PrintUtils.printGreen("Step 2: Retrieving WeatherProvider instance");
     final weatherProvider = Provider.of<WeatherProvider>(
       tester.element(find.byType(MyApp)),
       listen: false,
@@ -91,11 +92,11 @@ void main() {
       throw "";
     });
 
-    print("Step 3: Fetching forecast data");
+    PrintUtils.printGreen("Step 3: Fetching forecast data");
     await weatherProvider.getForecastData();
     await tester.pumpAndSettle(Durations.extralong4);
 
-    print("Step 4: Verifying fetched froecast data");
+    PrintUtils.printGreen("Step 4: Verifying fetched froecast data");
     expect(weatherProvider.hourlyWeatherProvider?.city.name, 'New York');
     expect(weatherProvider.hourlyWeatherProvider?.list[0].main.feelsLike, 19.0);
   });
