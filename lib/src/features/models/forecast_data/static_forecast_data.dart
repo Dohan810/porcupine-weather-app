@@ -1,5 +1,3 @@
-// static_forecast_data.dart
-
 import 'forecast_data.dart';
 
 const ForecastData staticForecastData = ForecastData(

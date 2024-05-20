@@ -28,11 +28,10 @@ class WeatherProvider extends ChangeNotifier {
 
   WeatherState currentWeatherState = WeatherState.initial;
   WeatherState forecastWeatherState = WeatherState.initial;
-
-  String? errorMessage;
-
   Unit selectedUnit = Unit.metric;
   ForecastRange selectedForecastRange = ForecastRange.daily;
+
+  String? errorMessage;
 
   List<String> previousSearches = [];
 

@@ -45,7 +45,7 @@ class _FeatureWeatherDesktopState extends State<FeatureWeatherDesktop> {
                 ],
               ),
             ),
-            const SizedBox(width: 16),
+            addSpace(4),
             // Right Section: Forecast and Details
             BlurWrapper(
               inverted: true,
