@@ -4,6 +4,14 @@
 
 This document provides an overview of the codebase for a Flutter weather application. It explains the purpose and functionality of each section and file, detailing how the various components interact to form the complete application.
 
+## Versions and Tools Used
+
+- **Flutter**: 3.19.6
+- **Dart**: 2.19.6
+- **Provider**: 6.0.5
+
+  To set up the project, ensure that the versions of Flutter and Dart are as mentioned above. You can manage Flutter versions using FVM (Flutter Version Management).
+
 ## Project Structure
 
 ```folder structure
