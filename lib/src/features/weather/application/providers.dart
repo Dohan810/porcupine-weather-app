@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
-import 'package:open_weather_example_flutter/src/api/api.dart';
-import 'package:open_weather_example_flutter/src/api/api_keys.dart';
-import 'package:open_weather_example_flutter/src/features/models/forecast_data/forecast_data.dart';
-import 'package:open_weather_example_flutter/src/features/models/weather_data/weather_data.dart';
-import 'package:open_weather_example_flutter/src/features/weather/data/weather_repository.dart';
+import 'package:weather_wise/src/api/api.dart';
+import 'package:weather_wise/src/api/api_keys.dart';
+import 'package:weather_wise/src/features/models/forecast_data/forecast_data.dart';
+import 'package:weather_wise/src/features/models/weather_data/weather_data.dart';
+import 'package:weather_wise/src/features/weather/data/weather_repository.dart';
 import 'package:http/http.dart' as http;
-import 'package:open_weather_example_flutter/src/features/weather/enums/forecast_enum.dart';
-import 'package:open_weather_example_flutter/src/features/weather/enums/unit_enums.dart';
-import 'package:open_weather_example_flutter/utils/formatting_utils.dart';
+import 'package:weather_wise/src/features/weather/enums/forecast_enum.dart';
+import 'package:weather_wise/src/features/weather/enums/unit_enums.dart';
+import 'package:weather_wise/utils/formatting_utils.dart';
 
 enum WeatherState { initial, loading, loaded, error }
 

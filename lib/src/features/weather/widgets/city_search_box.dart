@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:open_weather_example_flutter/src/features/weather/widgets/wrappers/animation_expanded_wrapper.dart';
-import 'package:open_weather_example_flutter/src/features/weather/application/providers.dart';
-import 'package:open_weather_example_flutter/src/features/weather/presentation/weather_page.dart';
-import 'package:open_weather_example_flutter/src/features/weather/application/layout_provider.dart';
-import 'package:open_weather_example_flutter/utils/date_utils.dart';
-import 'package:open_weather_example_flutter/utils/formatting_utils.dart';
+import 'package:weather_wise/src/features/weather/widgets/wrappers/animation_expanded_wrapper.dart';
+import 'package:weather_wise/src/features/weather/application/providers.dart';
+import 'package:weather_wise/src/features/weather/presentation/weather_page.dart';
+import 'package:weather_wise/src/features/weather/application/layout_provider.dart';
+import 'package:weather_wise/utils/date_utils.dart';
+import 'package:weather_wise/utils/formatting_utils.dart';
 import 'package:provider/provider.dart';
 
 class CitySearchBox extends StatefulWidget {
@@ -168,15 +168,24 @@ class _CitySearchRowState extends State<CitySearchBox> {
                       ),
                       onPressed: _toggleSearch,
                     ),
-                    GestureDetector(
-                      child: Image.asset(
-                        "assets/menu.png",
-                        height: 36,
-                      ),
-                      onTap: () {
-                        scaffoldKey.currentState?.openDrawer();
-                      },
-                    ),
+                    Consumer<WeatherProvider>(builder: (context, provider, _) {
+                      final state = provider.forecastWeatherState;
+
+                      switch (state) {
+                        case WeatherState.error:
+                          return const SizedBox.shrink();
+                        default:
+                      }
+                      return GestureDetector(
+                        child: Image.asset(
+                          "assets/menu.png",
+                          height: 24,
+                        ),
+                        onTap: () {
+                          scaffoldKey.currentState?.openDrawer();
+                        },
+                      );
+                    }),
                   ],
                 ),
               ]

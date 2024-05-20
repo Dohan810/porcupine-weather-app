@@ -48,7 +48,7 @@ lib
 - **api.dart**: Contains the `OpenWeatherMapAPI` class which constructs URIs for API requests to the OpenWeatherMap service. It dynamically builds URIs based on the provided city name and other parameters.
 
 ```dart
-import 'package:open_weather_example_flutter/src/api/api_keys.dart';
+import 'package:weather_wise/src/api/api_keys.dart';
 import 'package:provider/provider.dart';
 
 class OpenWeatherMapAPI {

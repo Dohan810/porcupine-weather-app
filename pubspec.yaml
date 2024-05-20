@@ -1,5 +1,5 @@
 # @format
-name: open_weather_example_flutter
+name: weather_wise
 description: A new Flutter project.
 
 publish_to: "none" # Remove this line if you wish to publish to pub.dev

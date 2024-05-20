@@ -1,6 +1,6 @@
-import 'package:open_weather_example_flutter/main.dart';
-import 'package:open_weather_example_flutter/src/features/weather/application/providers.dart';
-import 'package:open_weather_example_flutter/src/features/weather/enums/unit_enums.dart';
+import 'package:weather_wise/main.dart';
+import 'package:weather_wise/src/features/weather/application/providers.dart';
+import 'package:weather_wise/src/features/weather/enums/unit_enums.dart';
 import 'package:provider/provider.dart';
 
 /// Uri builder class for the OpenWeatherMap API

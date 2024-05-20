@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:open_weather_example_flutter/src/features/weather/widgets/buttons/link_button.dart';
-import 'package:open_weather_example_flutter/src/features/weather/widgets/static/no_results_found.dart';
-import 'package:open_weather_example_flutter/src/features/weather/application/providers.dart';
-import 'package:open_weather_example_flutter/src/features/weather/widgets/additional_info_weather.dart';
-import 'package:open_weather_example_flutter/src/features/weather/widgets/city_search_box.dart';
-import 'package:open_weather_example_flutter/src/features/weather/widgets/current_weather.dart';
-import 'package:open_weather_example_flutter/src/features/weather/widgets/forecast_weather.dart';
-import 'package:open_weather_example_flutter/src/features/weather/widgets/sun_path_weather.dart';
-import 'package:open_weather_example_flutter/utils/formatting_utils.dart';
+import 'package:weather_wise/src/features/weather/widgets/buttons/link_button.dart';
+import 'package:weather_wise/src/features/weather/widgets/static/no_results_found.dart';
+import 'package:weather_wise/src/features/weather/application/providers.dart';
+import 'package:weather_wise/src/features/weather/widgets/additional_info_weather.dart';
+import 'package:weather_wise/src/features/weather/widgets/city_search_box.dart';
+import 'package:weather_wise/src/features/weather/widgets/current_weather.dart';
+import 'package:weather_wise/src/features/weather/widgets/forecast_weather.dart';
+import 'package:weather_wise/src/features/weather/widgets/sun_path_weather.dart';
+import 'package:weather_wise/utils/formatting_utils.dart';
 import 'package:provider/provider.dart';
 
 class FeatureWeatherMobile extends StatefulWidget {

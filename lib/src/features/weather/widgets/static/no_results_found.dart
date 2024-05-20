@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:open_weather_example_flutter/src/features/weather/widgets/wrappers/blur_wrapper.dart';
+import 'package:weather_wise/src/features/weather/widgets/wrappers/blur_wrapper.dart';
 
 class NoResultsPage extends StatelessWidget {
   const NoResultsPage({super.key});

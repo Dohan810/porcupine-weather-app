@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:open_weather_example_flutter/src/features/weather/widgets/wrappers/animation_wrapper.dart';
-import 'package:open_weather_example_flutter/src/features/models/weather_data/weather_data.dart';
-import 'package:open_weather_example_flutter/src/features/weather/application/providers.dart';
-import 'package:open_weather_example_flutter/src/features/weather/enums/unit_enums.dart';
-import 'package:open_weather_example_flutter/src/features/weather/widgets/wrappers/blur_wrapper.dart';
-import 'package:open_weather_example_flutter/src/features/weather/widgets/weather_icon_image.dart';
-import 'package:open_weather_example_flutter/src/features/weather/application/layout_provider.dart';
-import 'package:open_weather_example_flutter/utils/date_utils.dart';
+import 'package:weather_wise/src/features/weather/widgets/wrappers/animation_wrapper.dart';
+import 'package:weather_wise/src/features/models/weather_data/weather_data.dart';
+import 'package:weather_wise/src/features/weather/application/providers.dart';
+import 'package:weather_wise/src/features/weather/enums/unit_enums.dart';
+import 'package:weather_wise/src/features/weather/widgets/wrappers/blur_wrapper.dart';
+import 'package:weather_wise/src/features/weather/widgets/weather_icon_image.dart';
+import 'package:weather_wise/src/features/weather/application/layout_provider.dart';
+import 'package:weather_wise/utils/date_utils.dart';
 import 'package:provider/provider.dart';
 
 import 'package:shimmer/shimmer.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:open_weather_example_flutter/src/features/weather/application/layout_provider.dart';
+import 'package:weather_wise/src/features/weather/application/layout_provider.dart';
 import 'package:provider/provider.dart';
 
 class SharedResponsiveWrapper extends StatelessWidget {

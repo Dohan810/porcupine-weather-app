@@ -1,4 +1,4 @@
-import 'package:open_weather_example_flutter/src/features/models/weather_data/weather_data.dart';
+import 'package:weather_wise/src/features/models/weather_data/weather_data.dart';
 
 const WeatherData staticWeatherData = WeatherData(
   coord: Coord(lon: 10.0, lat: 25.0),

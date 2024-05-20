@@ -1,12 +1,12 @@
 import 'package:http/http.dart' as http;
-import 'package:open_weather_example_flutter/main.dart';
+import 'package:weather_wise/main.dart';
 import 'dart:convert';
 
-import 'package:open_weather_example_flutter/src/api/api.dart';
-import 'package:open_weather_example_flutter/src/features/models/forecast_data/forecast_data.dart';
-import 'package:open_weather_example_flutter/src/features/models/weather_data/weather_data.dart';
-import 'package:open_weather_example_flutter/src/features/weather/application/providers.dart';
-import 'package:open_weather_example_flutter/src/features/weather/enums/forecast_enum.dart';
+import 'package:weather_wise/src/api/api.dart';
+import 'package:weather_wise/src/features/models/forecast_data/forecast_data.dart';
+import 'package:weather_wise/src/features/models/weather_data/weather_data.dart';
+import 'package:weather_wise/src/features/weather/application/providers.dart';
+import 'package:weather_wise/src/features/weather/enums/forecast_enum.dart';
 import 'package:provider/provider.dart';
 
 class HttpWeatherRepository {

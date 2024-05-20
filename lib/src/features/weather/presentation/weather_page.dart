@@ -1,15 +1,14 @@
-
 import 'package:flutter/material.dart';
-import 'package:open_weather_example_flutter/src/features/weather/widgets/buttons/link_button.dart';
-import 'package:open_weather_example_flutter/src/features/weather/widgets/dropdowns/dropdown.dart';
-import 'package:open_weather_example_flutter/src/features/weather/widgets/wrappers/responsive_wrapper.dart';
-import 'package:open_weather_example_flutter/src/features/weather/application/providers.dart';
-import 'package:open_weather_example_flutter/src/features/weather/enums/forecast_enum.dart';
-import 'package:open_weather_example_flutter/src/features/weather/enums/unit_enums.dart';
-import 'package:open_weather_example_flutter/src/features/weather/presentation/views/weather_desktop.dart';
-import 'package:open_weather_example_flutter/src/features/weather/presentation/views/weather_mobile.dart';
-import 'package:open_weather_example_flutter/src/features/weather/presentation/views/weather_tablet.dart';
-import 'package:open_weather_example_flutter/utils/formatting_utils.dart';
+import 'package:weather_wise/src/features/weather/widgets/buttons/link_button.dart';
+import 'package:weather_wise/src/features/weather/widgets/dropdowns/dropdown.dart';
+import 'package:weather_wise/src/features/weather/widgets/wrappers/responsive_wrapper.dart';
+import 'package:weather_wise/src/features/weather/application/providers.dart';
+import 'package:weather_wise/src/features/weather/enums/forecast_enum.dart';
+import 'package:weather_wise/src/features/weather/enums/unit_enums.dart';
+import 'package:weather_wise/src/features/weather/presentation/views/weather_desktop.dart';
+import 'package:weather_wise/src/features/weather/presentation/views/weather_mobile.dart';
+import 'package:weather_wise/src/features/weather/presentation/views/weather_tablet.dart';
+import 'package:weather_wise/utils/formatting_utils.dart';
 import 'package:provider/provider.dart';
 
 final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
